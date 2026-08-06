@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Castlevania">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Castlevania/dist/Castlevania.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
