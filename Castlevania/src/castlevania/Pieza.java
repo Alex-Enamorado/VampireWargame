@@ -85,9 +85,9 @@ public abstract class Pieza {
 
     }
 
-    public void setPosicion(){
-        this.fila = fila;
-        this.columna= columna;
+    public void setPosicion(int nuevaFila, int nuevaColumna){
+        this.fila = nuevaFila;
+        this.columna= nuevaColumna;
     }
 
 

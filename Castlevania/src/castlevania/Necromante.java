@@ -14,7 +14,7 @@ public class Necromante extends Pieza{
 
     public boolean puedeMover(int filaDestino, int columnaDestino) {
         int Dfila= Math.abs(filaDestino-this.fila);
-        int Dcolumna= Math.abs(columnaDestino-this.fila);
-        return Dfila<=1 && Dcolumna>=1 && (Dfila!=0 || Dcolumna!=0);
+        int Dcolumna= Math.abs(columnaDestino-this.columna);
+        return Dfila<=1 && Dcolumna<=1 && (Dfila!=0 || Dcolumna!=0);
     }
 }
