@@ -6,7 +6,7 @@ public class Zombie extends Pieza{
     //Ataque 1
 
     public Zombie(int d_pieza, int fila,int columna){
-        super(null,d_pieza,fila,columna,0,1,1);
+        super(TipoPieza.zombie,d_pieza,fila,columna,0,1,1);
 
     }
 

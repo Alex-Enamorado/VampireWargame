@@ -4,6 +4,7 @@ public enum TipoPieza {
     vampiro,
     hombre_lobo,
     necromante,
+    zombie,
 
 
 }
