@@ -3,13 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package castlevania;
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.util.Random;
-import javax.swing.Timer;
 
 /**
  *
@@ -21,6 +19,9 @@ public class Ruleta extends JPanel{
     private Image iconLobo;
     private Image iconVampiro;
     private Image iconNecromante;
+    private Image iconLoboBW;
+    private Image iconVampiroBW;
+    private Image iconNecromanteBW;
     private Timer timer;
     private double angulo = 0;
     private double velocidad=0;
@@ -28,13 +29,11 @@ public class Ruleta extends JPanel{
     private final TipoPieza[] secciones = { TipoPieza.hombre_lobo,TipoPieza.vampiro,  TipoPieza.necromante,
                                              TipoPieza.hombre_lobo, TipoPieza.vampiro,  TipoPieza.necromante};
 
-    private boolean hayLobo = true;
-    private boolean hayVampiro = true;
-    private boolean hayNecromante = true;
-
-
-
-
+    private int lobosVivos = 2;
+    private int vampirosVivos = 2;
+    private int necromantesVivos = 2;
+    private boolean cayoEnGris = false;
+    private int indiceResultado;
 
 
 
@@ -46,6 +45,11 @@ public class Ruleta extends JPanel{
         iconLobo = new ImageIcon(Main.class.getResource("/resources/rul_lobo.png")).getImage();
         iconVampiro = new ImageIcon(Main.class.getResource("/resources/rul_vampiro.png")).getImage();
         iconNecromante = new ImageIcon(Main.class.getResource("/resources/rul_necromante.png")).getImage();
+        iconLoboBW = new ImageIcon(Main.class.getResource("/resources/rul_lobo-b.png")).getImage();
+        iconVampiroBW = new ImageIcon(Main.class.getResource("/resources/rul_vampiro-b.png")).getImage();
+        iconNecromanteBW = new ImageIcon(Main.class.getResource("/resources/rul_necromante-b.png")).getImage();
+
+
         imagenRuleta = icono.getImage();
 
         timer=new Timer(20,e->{
@@ -75,44 +79,70 @@ public class Ruleta extends JPanel{
         this.onResultado = callback;
     }
 
+    public boolean cayoEnGris() {
+        return cayoEnGris;
+    }
+
     private TipoPieza calcularResultado() {
-        double anguloNormalizado = (270-angulo) % 360;
+
+        double anguloNormalizado = (270 - angulo) % 360;
+
         if (anguloNormalizado < 0) {
             anguloNormalizado += 360;
         }
 
         int indice = (int) (anguloNormalizado / 60);
-        return secciones[indice];
+        indiceResultado = indice;
+
+        TipoPieza resultado = secciones[indice];
+
+        System.out.println("Resultado de la ruleta: " + resultado + " (sección " + indice + ")");
+
+        return resultado;
     }
 
 
-    public void actualizarDisponible(boolean lobo, boolean vampiro, boolean necromante){
-        this.hayLobo=lobo;
-        this.hayVampiro=vampiro;
-        this.hayNecromante=necromante;
+    public void actualizarDisponible(int lobos, int vampiros, int necromantes){
+
+        this.lobosVivos = lobos;
+        this.vampirosVivos = vampiros;
+        this.necromantesVivos = necromantes;
+
         repaint();
-
     }
 
+    public boolean resultadoEsGris() {
 
+        TipoPieza tipo = secciones[indiceResultado];
 
-
-    private boolean tipoDisponible(TipoPieza tipo){
-        if(tipo== TipoPieza.hombre_lobo){
-            return hayLobo;
-
-        }
-        if(tipo== TipoPieza.vampiro){
-            return hayVampiro;
-
-        }
-        if(tipo == TipoPieza.necromante){
-            return hayNecromante;
+        if (tipo == TipoPieza.hombre_lobo) {
+            if (lobosVivos == 0) return true;
+            return lobosVivos == 1 && indiceResultado == 3;
         }
 
+        if (tipo == TipoPieza.vampiro) {
+            if (vampirosVivos == 0) return true;
+            return vampirosVivos == 1 && indiceResultado == 4;
+        }
+
+        if (tipo == TipoPieza.necromante) {
+            if (necromantesVivos == 0) return true;
+            return necromantesVivos == 1 && indiceResultado == 5;
+        }
 
         return false;
     }
+
+
+
+
+
+
+
+
+
+
+
 
     private Image imagenParaTipo(TipoPieza tipo){
         if(tipo== TipoPieza.hombre_lobo){
@@ -128,49 +158,111 @@ public class Ruleta extends JPanel{
 
     }
 
+
+    private Image imagenGris(TipoPieza tipo){
+        if (tipo== TipoPieza.hombre_lobo){
+            return iconLoboBW;
+        }
+        if (tipo== TipoPieza.vampiro){
+            return iconVampiroBW;
+        }
+        if (tipo== TipoPieza.necromante){
+            return iconNecromanteBW;
+        }
+        return null;
+
+
+
+    }
     @Override
     protected void paintComponent(Graphics g) {
-        System.out.println("Repintnado");
         super.paintComponent(g);
 
-        Graphics2D g2 = (Graphics2D)g.create();
 
-        int cx = getWidth()/2;
-        int cy = getHeight()/2;
+        Graphics2D g2 = (Graphics2D) g.create();
 
+        int cx = getWidth() / 2;
+        int cy = getHeight() / 2;
 
-        g2.rotate(Math.toRadians(angulo),cx,cy);
+        g2.rotate(Math.toRadians(angulo), cx, cy);
 
+        g2.drawImage(
+                imagenRuleta,
+                0,
+                0,
+                getWidth(),
+                getHeight(),
+                this
+        );
 
-
-
-        g2.drawImage(imagenRuleta, 0, 0, getWidth(), getHeight(), this);
         double radioFraccion = 0.28;
         double tamanoFraccion = 0.15;
 
-        int radio = (int)(getWidth()*radioFraccion);
-        int tamanoIcono = (int)(getWidth()*tamanoFraccion);
+        int radio = (int) (getWidth() * radioFraccion);
+        int tamanoIcono = (int) (getWidth() * tamanoFraccion);
 
-        for(int i = 0; i < secciones.length;i++){
-            TipoPieza tipo= secciones[i];
-            if(!tipoDisponible(tipo)){
-                continue;
+        for (int i = 0; i < secciones.length; i++) {
+
+            TipoPieza tipo = secciones[i];
+
+            // Primero mostramos la imagen normal
+            Image img = imagenParaTipo(tipo);
+
+            // Si se perdió un lobo, ponemos gris uno de los dos
+            if (tipo == TipoPieza.hombre_lobo && lobosVivos == 1 && i == 3) {
+                img = imagenGris(tipo);
             }
 
-            double anguloSeccion = Math.toRadians(30+i*60);
-            int x = cx + (int) (radio * Math.cos(anguloSeccion))- tamanoIcono/2;
-            int y = cy + (int) (radio * Math.sin(anguloSeccion))- tamanoIcono/2;
+            // Si se perdieron los dos lobos, los dos grises
+            if (tipo == TipoPieza.hombre_lobo && lobosVivos == 0) {
+                img = imagenGris(tipo);
+            }
 
-            Image img = imagenParaTipo(tipo);
-            g2.drawImage(img, x ,y, tamanoIcono, tamanoIcono,this);
+            // Si se perdió un vampiro, ponemos gris uno de los dos
+            if (tipo == TipoPieza.vampiro && vampirosVivos == 1 && i == 4) {
+                img = imagenGris(tipo);
+            }
 
+            // Si se perdieron los dos vampiros, los dos grises
+            if (tipo == TipoPieza.vampiro && vampirosVivos == 0) {
+                img = imagenGris(tipo);
+            }
 
+            // Si se perdió un necromante, ponemos gris uno de los dos
+            if (tipo == TipoPieza.necromante && necromantesVivos == 1 && i == 5) {
+                img = imagenGris(tipo);
+            }
+
+            // Si se perdieron los dos necromantes, los dos grises
+            if (tipo == TipoPieza.necromante && necromantesVivos == 0) {
+                img = imagenGris(tipo);
+            }
+
+            double anguloSeccion = Math.toRadians(30 + i * 60);
+
+            int x = cx
+                    + (int) (radio * Math.cos(anguloSeccion))
+                    - tamanoIcono / 2;
+
+            int y = cy
+                    + (int) (radio * Math.sin(anguloSeccion))
+                    - tamanoIcono / 2;
+
+            g2.drawImage(
+                    img,
+                    x,
+                    y,
+                    tamanoIcono,
+                    tamanoIcono,
+                    this
+            );
         }
 
-
-
         g2.dispose();
+
+
     }
+
 
 
     public void girar(){

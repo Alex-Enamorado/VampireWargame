@@ -15,9 +15,25 @@ public class Tablero extends JPanel implements ActionListener {
     private int jugadorActual = 1;
     private int piezasPerdidasJ1 = 0;
     private int piezasPerdidasJ2 = 0;
-    private int girosUsados = 0;
-    private TipoPieza tipoPermitido = null;
 
+
+    private int loboPerdidoJ1=0;
+    private int vampiroPerdidoJ1=0;
+    private int necromantePerdidoJ1=0;
+
+    private int loboPerdidoJ2=0;
+    private int vampiroPerdidoJ2=0;
+    private int necromantePerdidoJ2=0;
+
+
+
+
+
+    private int girosUsados = 0;
+
+
+    private TipoPieza tipoPermitido = null;
+    JLabel indicadorJugador = new JLabel();
     private JTextArea logArea = new JTextArea();
     private JScrollPane logScroll = new JScrollPane(logArea);
 
@@ -98,31 +114,30 @@ public class Tablero extends JPanel implements ActionListener {
     }
 
     private void actualizarRuletaDisponibilidad() {
-        boolean hayLobo = false;
-        boolean hayVampiro = false;
-        boolean hayNecro = false;
 
-        for (int i = 0; i < filas; i++) {
-            for (int j = 0; j < columnas; j++) {
-                Pieza p = tablero[i][j];
+        int lobosPerdidos;
+        int vampirosPerdidos;
+        int necromantesPerdidos;
 
-                if (p == null || p.getDuenio() != jugadorActual) {
-                    continue;
-                }
-
-                if (p.getTipo() == TipoPieza.hombre_lobo) {
-                    hayLobo = true;
-                }
-                if (p.getTipo() == TipoPieza.vampiro) {
-                    hayVampiro = true;
-                }
-                if (p.getTipo() == TipoPieza.necromante) {
-                    hayNecro = true;
-                }
-            }
+        if (jugadorActual == 1) {
+            lobosPerdidos = loboPerdidoJ1;
+            vampirosPerdidos = vampiroPerdidoJ1;
+            necromantesPerdidos = necromantePerdidoJ1;
+        } else {
+            lobosPerdidos = loboPerdidoJ2;
+            vampirosPerdidos = vampiroPerdidoJ2;
+            necromantesPerdidos = necromantePerdidoJ2;
         }
 
-        ruleta.actualizarDisponible(hayLobo, hayVampiro, hayNecro);
+        int lobosVivos = 2 - lobosPerdidos;
+        int vampirosVivos = 2 - vampirosPerdidos;
+        int necromantesVivos = 2 - necromantesPerdidos;
+
+        ruleta.actualizarDisponible(
+                lobosVivos,
+                vampirosVivos,
+                necromantesVivos
+        );
     }
 
 
@@ -182,10 +197,10 @@ public class Tablero extends JPanel implements ActionListener {
 
                         if (tablero[i][j].getDuenio() == 1) {
                             pos[i][j].setIcon(new ImageIcon(
-                                    Main.class.getResource("/resources/lobo.png")));
+                                    Main.class.getResource("/resources/lobo_blanco.png")));
                         } else {
                             pos[i][j].setIcon(new ImageIcon(
-                                    Main.class.getResource("/resources/lobo.png")));
+                                    Main.class.getResource("/resources/lobo_negro.png")));
                         }
 
                         break;
@@ -194,10 +209,10 @@ public class Tablero extends JPanel implements ActionListener {
 
                         if (tablero[i][j].getDuenio() == 1) {
                             pos[i][j].setIcon(new ImageIcon(
-                                    Main.class.getResource("/resources/vampiro.png")));
+                                    Main.class.getResource("/resources/vampiro_blanco.png")));
                         } else {
                             pos[i][j].setIcon(new ImageIcon(
-                                    Main.class.getResource("/resources/vampiro.png")));
+                                    Main.class.getResource("/resources/vampiro_negro.png")));
                         }
 
                         break;
@@ -206,10 +221,10 @@ public class Tablero extends JPanel implements ActionListener {
 
                         if (tablero[i][j].getDuenio() == 1) {
                             pos[i][j].setIcon(new ImageIcon(
-                                    Main.class.getResource("/resources/necromancer.png")));
+                                    Main.class.getResource("/resources/necromante_blanco.png")));
                         } else {
                             pos[i][j].setIcon(new ImageIcon(
-                                    Main.class.getResource("/resources/necromancer.png")));
+                                    Main.class.getResource("/resources/necromante_negro.png")));
                         }
 
                         break;
@@ -219,10 +234,10 @@ public class Tablero extends JPanel implements ActionListener {
 
                         if (tablero[i][j].getDuenio() == 1) {
                             pos[i][j].setIcon(new ImageIcon(
-                                    Main.class.getResource("/resources/zombie.png")));
+                                    Main.class.getResource("/resources/zombie_blanco.png")));
                         } else {
                             pos[i][j].setIcon(new ImageIcon(
-                                    Main.class.getResource("/resources/zombie.png")));
+                                    Main.class.getResource("/resources/zombie_negro.png")));
                         }
 
                         break;
@@ -239,39 +254,72 @@ public class Tablero extends JPanel implements ActionListener {
 
 
     private void procesarResultadoRuleta(TipoPieza resultado) {
-        girosUsados++;
-        System.out.println("Resultado ruleta: " + resultado);
-        System.out.println("Giros usados: " + girosUsados);
 
-        if (jugadorTienePieza(jugadorActual, resultado)) {
-            tipoPermitido = resultado;
-            JOptionPane.showMessageDialog(this, "Debes mover: " + resultado);
-            girar.setEnabled(false);
+        if (resultado == null) {
             return;
         }
+
+        girosUsados++;
+
+        System.out.println("Resultado: " + resultado);
+        System.out.println("Giros usados: " + girosUsados);
+
+        // ¿El jugador todavía tiene esa pieza?
+        if (jugadorTienePieza(jugadorActual, resultado)) {
+
+            tipoPermitido = resultado;
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Cayó en: " + resultado +
+                            "\nDebes mover esa pieza."
+            );
+
+            // Ya encontró una pieza válida.
+            // No puede volver a girar.
+            girar.setEnabled(false);
+
+            return;
+        }
+
+        // ------------------------------------------------
+        // CAYÓ EN UNA PIEZA GRIS
+        // ------------------------------------------------
 
         int girosPermitidos = calcularGirosPermitidos(jugadorActual);
 
+        System.out.println("Cayó en GRIS.");
+        System.out.println("Giros permitidos: " + girosPermitidos);
+        System.out.println("Giros usados: " + girosUsados);
+
+        // Todavía tiene otro intento
         if (girosUsados < girosPermitidos) {
-            JOptionPane.showMessageDialog(this,
-                    "Ya no tienes piezas de " + resultado + ". Gira de nuevo.");
-            ruleta.girar();
 
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Cayó en una pieza eliminada.\n" +
+                            "Puedes girar nuevamente."
+            );
 
-            if (jugadorTienePieza(jugadorActual, resultado)) {
-                tipoPermitido = resultado;
-                JOptionPane.showMessageDialog(this, "Debes mover: " + resultado);
-                registrarLog("Jugador " + jugadorActual + " debe mover: " + resultado);
-                girar.setEnabled(false);
-                return;
-            }
-
+            // El jugador tiene que presionar GIRAR
+            girar.setEnabled(true);
 
             return;
         }
 
-        JOptionPane.showMessageDialog(this, "Sin piezas disponibles. Pierdes el turno.");
+        // ------------------------------------------------
+        // YA NO LE QUEDAN GIROS
+        // ------------------------------------------------
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Cayó en una pieza eliminada.\n" +
+                        "Ya no tienes más giros.\n" +
+                        "Pierdes el turno."
+        );
+
         girar.setEnabled(false);
+
         pasarTurno();
     }
 
@@ -289,6 +337,7 @@ public class Tablero extends JPanel implements ActionListener {
     }
 
     private int calcularGirosPermitidos(int duenio) {
+
         int perdidas;
 
         if (duenio == 1) {
@@ -297,15 +346,7 @@ public class Tablero extends JPanel implements ActionListener {
             perdidas = piezasPerdidasJ2;
         }
 
-        if (perdidas >= 4) {
-            return 3;
-        }
-
-        if (perdidas >= 2) {
-            return 2;
-        }
-
-        return 1;
+        return 1 + perdidas;
     }
 
     private void pasarTurno() {
@@ -318,8 +359,22 @@ public class Tablero extends JPanel implements ActionListener {
         girosUsados = 0;
         tipoPermitido = null;
         girar.setEnabled(true);
+        actualizarRuletaDisponibilidad();
         System.out.println("Turno de jugador: " + jugadorActual);
         registrarLog("--- Turno de jugador " + jugadorActual + " ---");
+        if (jugadorActual == 1){
+            indicadorJugador.setText("Turno de Jugador 1");
+
+
+        }else if(jugadorActual==2){
+            indicadorJugador.setText("Turno de Jugador 2");
+
+
+        }
+
+        this.add(indicadorJugador);
+
+
     }
 
 
@@ -392,22 +447,52 @@ public class Tablero extends JPanel implements ActionListener {
             registrarLog("Se destruyó " + objetivo.getTipo() + " del jugador " + objetivo.getDuenio());
 
             tablero[filaDestino][columnaDestino] = null;
-            registrarPiezaPerdida(objetivo.getDuenio());
+            registrarPiezaPerdida(objetivo.getDuenio(), objetivo.getTipo());
         }
 
         mostrarPiezas();
         finalizarAccion();
     }
 
-    private void registrarPiezaPerdida(int duenio) {
+    private void registrarPiezaPerdida(int duenio, TipoPieza tipo) {
+
         if (duenio == 1) {
+
             piezasPerdidasJ1++;
+
+            if (tipo == TipoPieza.hombre_lobo) {
+                loboPerdidoJ1++;
+            }
+
+            if (tipo == TipoPieza.vampiro) {
+                vampiroPerdidoJ1++;
+            }
+
+            if (tipo == TipoPieza.necromante) {
+                necromantePerdidoJ1++;
+            }
+
         } else {
+
             piezasPerdidasJ2++;
+
+            if (tipo == TipoPieza.hombre_lobo) {
+                loboPerdidoJ2++;
+            }
+
+            if (tipo == TipoPieza.vampiro) {
+                vampiroPerdidoJ2++;
+            }
+
+            if (tipo == TipoPieza.necromante) {
+                necromantePerdidoJ2++;
+            }
         }
-        System.out.println("Piezas perdidas J1: " + piezasPerdidasJ1);
-        System.out.println("Piezas perdidas J2: " + piezasPerdidasJ2);
+
+        actualizarRuletaDisponibilidad();
     }
+
+
 
     private void finalizarAccion() {
         piezaSeleccionada = null;

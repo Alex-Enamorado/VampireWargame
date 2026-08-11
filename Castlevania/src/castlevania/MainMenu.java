@@ -115,7 +115,11 @@ public class MainMenu extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == Ini_sesion) {
-            gp.launchGame();
+            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            frame.setContentPane(new IniciarSesion());
+            frame.revalidate();
+            frame.repaint();
+            frame.setVisible(true);
 
         }
 
