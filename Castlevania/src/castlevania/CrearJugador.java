@@ -5,26 +5,24 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class IniciarSesion extends JPanel implements ActionListener {
+public class CrearJugador extends JPanel implements ActionListener {
 
     private JTextField campoUsuario = new JTextField();
     private JPasswordField campoContrasenia = new JPasswordField();
-    private JButton botonEntrar = new JButton();
+    private JButton botonCrear = new JButton();
     private JButton botonVolver = new JButton();
     private JButton botonMostrarContrasenia = new JButton();
 
-    // Guardamos el caracter original de "oculto" para poder restaurarlo
     private final char echoCharOculto;
     private boolean contraseniaVisible = false;
 
-    // Colores del tema (mismos tonos que el resto de la app)
     private final Color colorTextoBotones = new Color(204, 0, 11);
     private final Color colorTitulo = new Color(169, 47, 67);
-    private final Color colorCampoFondo = new Color(30, 18, 20);      // fondo oscuro tipo "pergamino gótico"
-    private final Color colorCampoTexto = new Color(235, 220, 210);   // texto claro para contraste
-    private final Color colorCampoBorde = new Color(169, 47, 67);     // borde rojo/vino a juego con el título
+    private final Color colorCampoFondo = new Color(30, 18, 20);
+    private final Color colorCampoTexto = new Color(235, 220, 210);
+    private final Color colorCampoBorde = new Color(169, 47, 67);
 
-    public IniciarSesion() {
+    public CrearJugador() {
         this.setLayout(new BorderLayout());
 
         ImageIcon background = new ImageIcon(Main.class.getResource("/resources/mainmenu_background1.png"));
@@ -32,66 +30,63 @@ public class IniciarSesion extends JPanel implements ActionListener {
         background_image.setLayout(null);
         background_image.setIcon(background);
 
-        // ===== Bloque centrado =====
-        // La ventana (MyFrame) mide 1600 x 900, así que centramos un "recuadro"
-        // lógico de 560 px de ancho horizontalmente.
         int boxWidth = 560;
         int boxX = (1600 - boxWidth) / 2;
 
-        // Guardamos el echoChar por defecto (el que usa Swing para ocultar la contraseña)
         echoCharOculto = campoContrasenia.getEchoChar();
 
-        // Titulo (centrado dentro del recuadro)
-        JLabel titulo = new JLabel("Iniciar Sesión");
+
+        //Crea titulo de crear jugador
+        JLabel titulo = new JLabel("Crear Jugador");
         titulo.setHorizontalAlignment(SwingConstants.CENTER);
         titulo.setForeground(colorTitulo);
-        titulo.setFont(new Font("Old English Text MT", Font.BOLD, 70));
+        titulo.setFont(new Font("Old English Text MT", Font.BOLD, 60));
         titulo.setBounds(boxX, 150, boxWidth, 90);
 
-        // Etiquetas
+        //Crear label de usuario
         JLabel labelUsuario = new JLabel("Usuario:");
         labelUsuario.setForeground(colorTextoBotones);
         labelUsuario.setFont(new Font("Old English Text MT", Font.BOLD, 28));
         labelUsuario.setBounds(boxX, 280, 150, 40);
-
-        JLabel labelContrasenia = new JLabel("Contraseña:");
+        //Crea label de contrasseña
+        JLabel labelContrasenia = new JLabel("Contraseña (5):");
         labelContrasenia.setForeground(colorTextoBotones);
-        labelContrasenia.setFont(new Font("Old English Text MT", Font.BOLD, 28));
-        labelContrasenia.setBounds(boxX, 350, 150, 40);
+        labelContrasenia.setFont(new Font("Old English Text MT", Font.BOLD, 24));
+        labelContrasenia.setBounds(boxX, 350, 200, 40);
 
-        // Campos
+        //Da espacio para escribir el usuario
         campoUsuario.setBounds(boxX + 160, 280, 360, 35);
         campoUsuario.setFont(new Font("Serif", Font.PLAIN, 18));
         estilizarCampo(campoUsuario);
 
-        campoContrasenia.setBounds(boxX + 160, 350, 280, 35);
+        //Crea el espacio para escribir la constraseña
+        campoContrasenia.setBounds(boxX + 210, 350, 230, 35);
         campoContrasenia.setFont(new Font("Serif", Font.PLAIN, 18));
         estilizarCampo(campoContrasenia);
 
-        // Boton para mostrar/ocultar la contraseña
+
+        //Customoizacion de boton de contraseña
         botonMostrarContrasenia.setText("Ver");
         botonMostrarContrasenia.setContentAreaFilled(false);
         botonMostrarContrasenia.setForeground(colorTextoBotones);
         botonMostrarContrasenia.setFont(new Font("Serif", Font.BOLD, 14));
         botonMostrarContrasenia.setBounds(boxX + 450, 350, 90, 35);
         botonMostrarContrasenia.setFocusable(false);
-        botonMostrarContrasenia.setBorderPainted(true);
         botonMostrarContrasenia.setBorder(BorderFactory.createLineBorder(colorCampoBorde, 1));
         botonMostrarContrasenia.addActionListener(this);
 
-        // Botones (mismo estilo que MainMenu, ahora centrados en el recuadro)
         int botonAncho = 300;
         int botonX = boxX + (boxWidth - botonAncho) / 2;
-
-        botonEntrar.setContentAreaFilled(false);
-        botonEntrar.setText("Entrar");
-        botonEntrar.setForeground(colorTextoBotones);
-        botonEntrar.setFont(new Font("Old English Text MT", Font.BOLD, 38));
-        botonEntrar.setBounds(botonX, 430, botonAncho, 80);
-        botonEntrar.setFocusable(false);
-        botonEntrar.setBorderPainted(false);
-        botonEntrar.addActionListener(this);
-
+        //Customiazacion boton de crear
+        botonCrear.setContentAreaFilled(false);
+        botonCrear.setText("Crear");
+        botonCrear.setForeground(colorTextoBotones);
+        botonCrear.setFont(new Font("Old English Text MT", Font.BOLD, 38));
+        botonCrear.setBounds(botonX, 430, botonAncho, 80);
+        botonCrear.setFocusable(false);
+        botonCrear.setBorderPainted(false);
+        botonCrear.addActionListener(this);
+        //Customaizacion boton de volver
         botonVolver.setContentAreaFilled(false);
         botonVolver.setText("Volver");
         botonVolver.setForeground(colorTextoBotones);
@@ -100,23 +95,19 @@ public class IniciarSesion extends JPanel implements ActionListener {
         botonVolver.setFocusable(false);
         botonVolver.setBorderPainted(false);
         botonVolver.addActionListener(this);
-
+        //panel en si
         background_image.add(titulo);
         background_image.add(labelUsuario);
         background_image.add(campoUsuario);
         background_image.add(labelContrasenia);
         background_image.add(campoContrasenia);
         background_image.add(botonMostrarContrasenia);
-        background_image.add(botonEntrar);
+        background_image.add(botonCrear);
         background_image.add(botonVolver);
 
         this.add(background_image);
     }
-
-    /**
-     * Aplica el estilo visual (fondo, texto, borde) a un campo de texto
-     * para que combine con el tema gótico de la aplicación.
-     */
+    //Esto permite darle customizacion a  los campos de texto
     private void estilizarCampo(JTextField campo) {
         campo.setBackground(colorCampoFondo);
         campo.setForeground(colorCampoTexto);
@@ -132,10 +123,12 @@ public class IniciarSesion extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
 
-        if (e.getSource() == botonMostrarContrasenia) {
+
+        //permite mostrar la contrse;a
+        if (e.getSource() == botonMostrarContrasenia) { //Si se presion mostrar contraseña
             contraseniaVisible = !contraseniaVisible;
             if (contraseniaVisible) {
-                campoContrasenia.setEchoChar((char) 0); // 0 = muestra el texto tal cual
+                campoContrasenia.setEchoChar((char) 0);
                 botonMostrarContrasenia.setText("Ocultar");
             } else {
                 campoContrasenia.setEchoChar(echoCharOculto);
@@ -143,7 +136,7 @@ public class IniciarSesion extends JPanel implements ActionListener {
             }
             return;
         }
-
+        //regresa al menu principal
         if (e.getSource() == botonVolver) {
             frame.setContentPane(new MainMenu());
             frame.revalidate();
@@ -151,26 +144,35 @@ public class IniciarSesion extends JPanel implements ActionListener {
             return;
         }
 
-        if (e.getSource() == botonEntrar) {
+        if (e.getSource() == botonCrear) {
 
-            String usuario = campoUsuario.getText().trim();
+            String usuario = campoUsuario.getText().trim(); //trim elimina los espacios al principio y al final
             String contrasenia = new String(campoContrasenia.getPassword());
 
-            Jugador jugador = Sesion.gestorJugadores.validarLogin(usuario, contrasenia);
-
-            if (jugador == null) {
-                JOptionPane.showMessageDialog(this,
-                        "Usuario o contraseña incorrectos.",
-                        "Error", JOptionPane.ERROR_MESSAGE);
+            if (usuario.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Escribe un usuario.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            Sesion.jugadorActual = jugador;
+            if (contrasenia.length() != 5) {
+                JOptionPane.showMessageDialog(this, "La contraseña debe tener exactamente 5 caracteres.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            Jugador nuevo = new Jugador(usuario, contrasenia);
+            boolean exito = Sesion.gestorJugadores.registrar(nuevo);
+
+            if (!exito) {
+                JOptionPane.showMessageDialog(this, "Ese usuario ya existe, elige otro.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            //Si el registro termina con exito automaticamente esta iniciado sesion en el nuevo
+            Sesion.jugadorActual = nuevo;
+
             frame.setContentPane(new MenuPrincipal());
             frame.revalidate();
             frame.repaint();
         }
     }
-
-
 }

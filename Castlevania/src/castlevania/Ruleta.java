@@ -208,32 +208,32 @@ public class Ruleta extends JPanel{
             // Primero mostramos la imagen normal
             Image img = imagenParaTipo(tipo);
 
-            // Si se perdió un lobo, ponemos gris uno de los dos
+            // Si se perdi un lobo ponemos gris uno de los dos
             if (tipo == TipoPieza.hombre_lobo && lobosVivos == 1 && i == 3) {
                 img = imagenGris(tipo);
             }
 
-            // Si se perdieron los dos lobos, los dos grises
+            // Si se perdieron los dos lobos los dos grises
             if (tipo == TipoPieza.hombre_lobo && lobosVivos == 0) {
                 img = imagenGris(tipo);
             }
 
-            // Si se perdió un vampiro, ponemos gris uno de los dos
+            // Si se perdio un vampiro ponemos gris uno de los dos
             if (tipo == TipoPieza.vampiro && vampirosVivos == 1 && i == 4) {
                 img = imagenGris(tipo);
             }
 
-            // Si se perdieron los dos vampiros, los dos grises
+            // Si se perdieron los dos vampiros los dos grises
             if (tipo == TipoPieza.vampiro && vampirosVivos == 0) {
                 img = imagenGris(tipo);
             }
 
-            // Si se perdió un necromante, ponemos gris uno de los dos
+            // Si se perdio un necromante ponemos gris uno de los dos
             if (tipo == TipoPieza.necromante && necromantesVivos == 1 && i == 5) {
                 img = imagenGris(tipo);
             }
 
-            // Si se perdieron los dos necromantes, los dos grises
+            // Si se perdieron los dos necromantes los dos grises
             if (tipo == TipoPieza.necromante && necromantesVivos == 0) {
                 img = imagenGris(tipo);
             }

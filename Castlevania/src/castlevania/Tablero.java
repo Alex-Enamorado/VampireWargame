@@ -31,11 +31,16 @@ public class Tablero extends JPanel implements ActionListener {
 
     private int girosUsados = 0;
 
+    //Nombres de los dos jugadores de esta partida (para mensajes finales y puntos)
+    private String nombreJugador1 = "Jugador 1";
+    private String nombreJugador2 = "Jugador 2";
+    private boolean partidaTerminada = false;
 
     private TipoPieza tipoPermitido = null;
     JLabel indicadorJugador = new JLabel();
     private JTextArea logArea = new JTextArea();
     private JScrollPane logScroll = new JScrollPane(logArea);
+    private JButton retirarse = new JButton();
 
 
     private JButton[][] pos = new JButton[6][6];
@@ -48,6 +53,13 @@ public class Tablero extends JPanel implements ActionListener {
 
 
     public Tablero() {
+        this("Jugador 1", "Jugador 2");
+    }
+
+    public Tablero(String nombreJugador1, String nombreJugador2) {
+        this.nombreJugador1 = nombreJugador1;
+        this.nombreJugador2 = nombreJugador2;
+
         this.setLayout(null);
         this.setBackground(new Color(40, 39, 39));
         grid.setLayout(new GridLayout(6, 6));
@@ -57,11 +69,26 @@ public class Tablero extends JPanel implements ActionListener {
         hacerRuleta();
         actualizarRuletaDisponibilidad();
         hacerPanelLog();
+        hacerBotonRetirarse();
         mostrarPiezas();
 
         grid.setBounds(350, 5, 852, 852);
         this.add(grid);
 
+    }
+
+    private void hacerBotonRetirarse() {
+        retirarse.setText("Retirarse");
+        retirarse.setContentAreaFilled(false);
+        retirarse.setForeground(new Color(204, 0, 11));
+        retirarse.setFont(new Font("Old English Text MT", Font.BOLD, 22));
+        retirarse.setBounds(25, 20, 300, 60);
+        retirarse.setFocusable(false);
+        retirarse.setBorderPainted(true);
+        retirarse.setBorder(BorderFactory.createLineBorder(new Color(169, 47, 67), 2));
+        retirarse.addActionListener(this);
+
+        this.add(retirarse);
     }
 
 
@@ -264,7 +291,43 @@ public class Tablero extends JPanel implements ActionListener {
         System.out.println("Resultado: " + resultado);
         System.out.println("Giros usados: " + girosUsados);
 
-        // ¿El jugador todavía tiene esa pieza?
+        // PRIMERO preguntamos si el sector donde cayó es GRIS
+        if (ruleta.resultadoEsGris()) {
+
+            int girosPermitidos = calcularGirosPermitidos(jugadorActual);
+
+            System.out.println("Cayó en GRIS.");
+            System.out.println("Giros permitidos: " + girosPermitidos);
+            System.out.println("Giros usados: " + girosUsados);
+
+            // Todavía puede volver a tirar
+            if (girosUsados < girosPermitidos) {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Cayó en una pieza eliminada.\n" +
+                                "Puedes girar nuevamente."
+                );
+
+                girar.setEnabled(true);
+                return;
+            }
+
+            // Ya no tiene más oportunidades
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Cayó en una pieza eliminada.\n" +
+                            "Ya no tienes más giros.\n" +
+                            "Pierdes el turno."
+            );
+
+            girar.setEnabled(false);
+            pasarTurno();
+            return;
+        }
+
+        // SI NO ES GRIS:
+        // comprobamos si el jugador tiene esa pieza
         if (jugadorTienePieza(jugadorActual, resultado)) {
 
             tipoPermitido = resultado;
@@ -275,51 +338,36 @@ public class Tablero extends JPanel implements ActionListener {
                             "\nDebes mover esa pieza."
             );
 
-            // Ya encontró una pieza válida.
-            // No puede volver a girar.
             girar.setEnabled(false);
-
             return;
         }
 
-        // ------------------------------------------------
-        // CAYÓ EN UNA PIEZA GRIS
-        // ------------------------------------------------
-
+        // Por seguridad, si no tiene la pieza
         int girosPermitidos = calcularGirosPermitidos(jugadorActual);
 
-        System.out.println("Cayó en GRIS.");
+        System.out.println("El jugador no tiene esa pieza.");
         System.out.println("Giros permitidos: " + girosPermitidos);
-        System.out.println("Giros usados: " + girosUsados);
 
-        // Todavía tiene otro intento
         if (girosUsados < girosPermitidos) {
 
             JOptionPane.showMessageDialog(
                     this,
-                    "Cayó en una pieza eliminada.\n" +
+                    "No tienes esa pieza.\n" +
                             "Puedes girar nuevamente."
             );
 
-            // El jugador tiene que presionar GIRAR
             girar.setEnabled(true);
-
             return;
         }
 
-        // ------------------------------------------------
-        // YA NO LE QUEDAN GIROS
-        // ------------------------------------------------
-
         JOptionPane.showMessageDialog(
                 this,
-                "Cayó en una pieza eliminada.\n" +
+                "No tienes esa pieza.\n" +
                         "Ya no tienes más giros.\n" +
                         "Pierdes el turno."
         );
 
         girar.setEnabled(false);
-
         pasarTurno();
     }
 
@@ -427,27 +475,107 @@ public class Tablero extends JPanel implements ActionListener {
 
         boolean esAdyacente = Dfila <= 1 && Dcolumna <= 1;
 
-        if (!esAdyacente) {
-            System.out.println("Esa pieza no está adyacente, no puedes atacar así");
+        //El Necrómante puede lanzar su lanza hasta 2 casillas, en línea recta (horizontal o vertical)
+        boolean esLanzaNecromante = piezaSeleccionada.getTipo() == TipoPieza.necromante
+                && ((Dfila <= 2 && Dcolumna == 0) || (Dcolumna <= 2 && Dfila == 0));
+
+        if (esAdyacente) {
+            atacarAdyacente(objetivo, filaDestino, columnaDestino);
             return;
         }
 
+        if (esLanzaNecromante) {
+            //Ataque de lanza: 2 de daño, ignora el escudo
+            objetivo.recibirDanio(2, true);
+            registrarLog("Jugador " + jugadorActual + " lanzó su lanza contra " + objetivo.getTipo());
+            aplicarResultadoAtaque(objetivo, filaDestino, columnaDestino);
+            return;
+        }
+
+        //Ataque a través de Zombie: el Necrómante puede ordenar el ataque sin importar
+        //la distancia, siempre que el enemigo esté pegado a un Zombie propio
+        if (piezaSeleccionada.getTipo() == TipoPieza.necromante
+                && hayZombiePropioAdyacente(jugadorActual, filaDestino, columnaDestino)) {
+
+            objetivo.recibirDanio(1, false);
+            registrarLog("Jugador " + jugadorActual + " ordenó atacar a través de un Zombie contra " + objetivo.getTipo());
+            aplicarResultadoAtaque(objetivo, filaDestino, columnaDestino);
+            return;
+        }
+
+        System.out.println("Esa pieza no está al alcance");
+    }
+
+    //Revisa si hay un Zombie del mismo dueño en alguna de las 8 casillas alrededor de (fila, columna)
+    private boolean hayZombiePropioAdyacente(int duenio, int fila, int columna) {
+
+        for (int i = fila - 1; i <= fila + 1; i++) {
+            for (int j = columna - 1; j <= columna + 1; j++) {
+
+                if (i == fila && j == columna) {
+                    continue;
+                }
+                if (i < 0 || i >= filas || j < 0 || j >= columnas) {
+                    continue;
+                }
+
+                Pieza p = tablero[i][j];
+
+                if (p != null && p.getDuenio() == duenio && p.getTipo() == TipoPieza.zombie) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    //Ataque contra una pieza adyacente: normal o especial (según el tipo de pieza atacante)
+    private void atacarAdyacente(Pieza objetivo, int filaDestino, int columnaDestino) {
+
+        if (piezaSeleccionada.getTipo() == TipoPieza.vampiro) {
+            int opcion = JOptionPane.showConfirmDialog(this,
+                    "¿Absorber sangre? (quita 1 punto y cura 1 punto al Vampiro)\n"
+                            + "Si eliges 'No' se hace un ataque normal.",
+                    "Habilidad del Vampiro", JOptionPane.YES_NO_OPTION);
+
+            if (opcion == JOptionPane.YES_OPTION) {
+                objetivo.recibirDanio(1, false);
+                piezaSeleccionada.vida += 1; //Pieza está en el mismo paquete, se puede tocar el campo directo
+                registrarLog("Jugador " + jugadorActual + " absorbió sangre de " + objetivo.getTipo());
+                aplicarResultadoAtaque(objetivo, filaDestino, columnaDestino);
+                return;
+            }
+        }
+
+        //Ataque normal
         objetivo.recibirDanio(piezaSeleccionada.getAtaque(), false);
+        registrarLog("Jugador " + jugadorActual + " atacó " + objetivo.getTipo());
+        aplicarResultadoAtaque(objetivo, filaDestino, columnaDestino);
+    }
+
+    //Muestra el resultado del ataque, retira la pieza si murió y revisa si alguien ganó
+    private void aplicarResultadoAtaque(Pieza objetivo, int filaDestino, int columnaDestino) {
 
         if (objetivo.estaViva()) {
             JOptionPane.showMessageDialog(this,
                     "Se atacó la pieza " + objetivo.getTipo() +
                             "; le quedan " + objetivo.getEscudo() + " de escudo y " +
                             objetivo.getVida() + " de vida");
-            registrarLog("Jugador " + jugadorActual + " atacó " + objetivo.getTipo() +
-                    " (queda " + objetivo.getEscudo() + " escudo, " + objetivo.getVida() + " vida)");
         } else {
             JOptionPane.showMessageDialog(this,
                     "Se destruyó la pieza " + objetivo.getTipo());
             registrarLog("Se destruyó " + objetivo.getTipo() + " del jugador " + objetivo.getDuenio());
 
+            int duenioDerrotado = objetivo.getDuenio();
             tablero[filaDestino][columnaDestino] = null;
-            registrarPiezaPerdida(objetivo.getDuenio(), objetivo.getTipo());
+            registrarPiezaPerdida(duenioDerrotado, objetivo.getTipo());
+
+            if (jugadorSinPiezas(duenioDerrotado)) {
+                mostrarPiezas();
+                terminarPorVictoria(jugadorActual, duenioDerrotado);
+                return;
+            }
         }
 
         mostrarPiezas();
@@ -498,11 +626,90 @@ public class Tablero extends JPanel implements ActionListener {
         piezaSeleccionada = null;
         filaSeleccionada = -1;
         columnaSeleccionada = -1;
-        pasarTurno();
+
+        if (!partidaTerminada) {
+            pasarTurno();
+        }
+    }
+
+    private String nombreDeJugador(int numero) {
+        if (numero == 1) {
+            return nombreJugador1;
+        }
+        return nombreJugador2;
+    }
+
+    //Revisa si el jugador "duenio" ya no tiene ninguna pieza en el tablero
+    private boolean jugadorSinPiezas(int duenio) {
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                if (tablero[i][j] != null && tablero[i][j].getDuenio() == duenio) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private void terminarPorVictoria(int ganador, int perdedor) {
+        partidaTerminada = true;
+        girar.setEnabled(false);
+        retirarse.setEnabled(false);
+
+        String mensaje = nombreDeJugador(ganador) + " venció a " + nombreDeJugador(perdedor)
+                + ". ¡Felicidades, has ganado 3 puntos!";
+
+        registrarLog(mensaje);
+        cerrarPartida(ganador, mensaje);
+    }
+
+    private void terminarPorRetiro(int retirado) {
+        partidaTerminada = true;
+        girar.setEnabled(false);
+        retirarse.setEnabled(false);
+
+        int ganador = (retirado == 1) ? 2 : 1;
+
+        String mensaje = nombreDeJugador(retirado) + " se ha retirado. ¡Felicidades, "
+                + nombreDeJugador(ganador) + ", has ganado 3 puntos!";
+
+        registrarLog(mensaje);
+        cerrarPartida(ganador, mensaje);
+    }
+
+    //Le da los 3 puntos al ganador, guarda el registro en el historial y regresa al Menú Principal
+    private void cerrarPartida(int numeroGanador, String mensaje) {
+
+        Jugador ganador = Sesion.gestorJugadores.buscarPorUsuario(nombreDeJugador(numeroGanador));
+        if (ganador != null) {
+            ganador.sumarPuntos(3);
+        }
+
+        RegistroPartida registro = new RegistroPartida(nombreJugador1, nombreJugador2, mensaje);
+        Sesion.registrarPartida(registro);
+
+        JOptionPane.showMessageDialog(this, mensaje);
+
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        frame.setContentPane(new MenuPrincipal());
+        frame.revalidate();
+        frame.repaint();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
+        if (e.getSource() == retirarse) {
+            int opcion = JOptionPane.showConfirmDialog(this,
+                    "¿Seguro que quieres retirarte? Perderás la partida.",
+                    "Retirarse", JOptionPane.YES_NO_OPTION);
+
+            if (opcion == JOptionPane.YES_OPTION) {
+                terminarPorRetiro(jugadorActual);
+            }
+            return;
+        }
+
         if(e.getSource()==girar){
                 System.out.println("Girando");
                 ruleta.girar();

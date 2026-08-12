@@ -25,8 +25,6 @@ public class MainMenu extends JPanel implements ActionListener {
     private JButton Ini_sesion = new JButton();
     private JButton Crear_j = new JButton();
     private JButton salir = new JButton();
-    Tablero tb = new Tablero();
-    GamePanel gp = new GamePanel();
 
     public MainMenu() {
         this.setLayout(new BorderLayout());
@@ -125,7 +123,7 @@ public class MainMenu extends JPanel implements ActionListener {
 
         if (e.getSource() == Crear_j) {
             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-            frame.setContentPane(tb);
+            frame.setContentPane(new CrearJugador());
             frame.revalidate();
             frame.repaint();
             frame.setVisible(true);
