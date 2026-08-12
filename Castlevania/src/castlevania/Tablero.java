@@ -43,7 +43,7 @@ public class Tablero extends JPanel implements ActionListener {
     private JButton retirarse = new JButton();
 
 
-    private JButton[][] pos = new JButton[6][6];
+    private BotonPieza[][] pos = new BotonPieza[6][6];
     private Pieza[][] tablero = new Pieza[6][6];
 
     JPanel grid = new JPanel();
@@ -70,11 +70,23 @@ public class Tablero extends JPanel implements ActionListener {
         actualizarRuletaDisponibilidad();
         hacerPanelLog();
         hacerBotonRetirarse();
+        configurarIndicadorJugador();
         mostrarPiezas();
 
         grid.setBounds(350, 5, 852, 852);
         this.add(grid);
 
+    }
+
+    //Etiqueta debajo de la ruleta que dice de quién es el turno (usando el nombre real de la cuenta)
+    private void configurarIndicadorJugador() {
+        indicadorJugador.setBounds(25, 460, 300, 50);
+        indicadorJugador.setHorizontalAlignment(SwingConstants.CENTER);
+        indicadorJugador.setForeground(new Color(204, 0, 11));
+        indicadorJugador.setFont(new Font("Old English Text MT", Font.BOLD, 26));
+        indicadorJugador.setText("Turno de " + nombreJugador1);
+
+        this.add(indicadorJugador);
     }
 
     private void hacerBotonRetirarse() {
@@ -99,7 +111,7 @@ public class Tablero extends JPanel implements ActionListener {
         for (int i = 0; i < filas; i++) {
             for (int j=0; j < columnas;j++) {
 
-                pos[i][j] = new JButton();
+                pos[i][j] = new BotonPieza();
                 pos[i][j].setPreferredSize(new Dimension(10, 10));
 
                 if ((i+j) % 2 == 0) {
@@ -213,64 +225,50 @@ public class Tablero extends JPanel implements ActionListener {
         for (int i=0;i<filas;i++){
             for (int j=0;j<columnas;j++){
                 if (tablero[i][j] == null) {
-                    pos[i][j].setIcon(null);
+                    pos[i][j].ocultarStats();
                     continue;
             }
 
+                String rutaImagen;
 
                 switch (tablero[i][j].getTipo()) {
 
                     case hombre_lobo:
-
-                        if (tablero[i][j].getDuenio() == 1) {
-                            pos[i][j].setIcon(new ImageIcon(
-                                    Main.class.getResource("/resources/lobo_blanco.png")));
-                        } else {
-                            pos[i][j].setIcon(new ImageIcon(
-                                    Main.class.getResource("/resources/lobo_negro.png")));
-                        }
-
+                        rutaImagen = (tablero[i][j].getDuenio() == 1)
+                                ? "/resources/lobo_blanco.png"
+                                : "/resources/lobo_negro.png";
                         break;
 
                     case vampiro:
-
-                        if (tablero[i][j].getDuenio() == 1) {
-                            pos[i][j].setIcon(new ImageIcon(
-                                    Main.class.getResource("/resources/vampiro_blanco.png")));
-                        } else {
-                            pos[i][j].setIcon(new ImageIcon(
-                                    Main.class.getResource("/resources/vampiro_negro.png")));
-                        }
-
+                        rutaImagen = (tablero[i][j].getDuenio() == 1)
+                                ? "/resources/vampiro_blanco.png"
+                                : "/resources/vampiro_negro.png";
                         break;
 
                     case necromante:
-
-                        if (tablero[i][j].getDuenio() == 1) {
-                            pos[i][j].setIcon(new ImageIcon(
-                                    Main.class.getResource("/resources/necromante_blanco.png")));
-                        } else {
-                            pos[i][j].setIcon(new ImageIcon(
-                                    Main.class.getResource("/resources/necromante_negro.png")));
-                        }
-
+                        rutaImagen = (tablero[i][j].getDuenio() == 1)
+                                ? "/resources/necromante_blanco.png"
+                                : "/resources/necromante_negro.png";
                         break;
-
 
                     case zombie:
-
-                        if (tablero[i][j].getDuenio() == 1) {
-                            pos[i][j].setIcon(new ImageIcon(
-                                    Main.class.getResource("/resources/zombie_blanco.png")));
-                        } else {
-                            pos[i][j].setIcon(new ImageIcon(
-                                    Main.class.getResource("/resources/zombie_negro.png")));
-                        }
-
+                        rutaImagen = (tablero[i][j].getDuenio() == 1)
+                                ? "/resources/zombie_blanco.png"
+                                : "/resources/zombie_negro.png";
                         break;
 
-
+                    default:
+                        rutaImagen = null;
                 }
+
+                Image imagenPieza = new ImageIcon(Main.class.getResource(rutaImagen)).getImage();
+
+                pos[i][j].mostrarPieza(
+                        imagenPieza,
+                        tablero[i][j].getEscudo(),
+                        tablero[i][j].getVida(),
+                        tablero[i][j].getAtaque()
+                );
             }
 
 
@@ -291,43 +289,7 @@ public class Tablero extends JPanel implements ActionListener {
         System.out.println("Resultado: " + resultado);
         System.out.println("Giros usados: " + girosUsados);
 
-        // PRIMERO preguntamos si el sector donde cayó es GRIS
-        if (ruleta.resultadoEsGris()) {
-
-            int girosPermitidos = calcularGirosPermitidos(jugadorActual);
-
-            System.out.println("Cayó en GRIS.");
-            System.out.println("Giros permitidos: " + girosPermitidos);
-            System.out.println("Giros usados: " + girosUsados);
-
-            // Todavía puede volver a tirar
-            if (girosUsados < girosPermitidos) {
-
-                JOptionPane.showMessageDialog(
-                        this,
-                        "Cayó en una pieza eliminada.\n" +
-                                "Puedes girar nuevamente."
-                );
-
-                girar.setEnabled(true);
-                return;
-            }
-
-            // Ya no tiene más oportunidades
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Cayó en una pieza eliminada.\n" +
-                            "Ya no tienes más giros.\n" +
-                            "Pierdes el turno."
-            );
-
-            girar.setEnabled(false);
-            pasarTurno();
-            return;
-        }
-
-        // SI NO ES GRIS:
-        // comprobamos si el jugador tiene esa pieza
+        // ¿El jugador todavía tiene esa pieza?
         if (jugadorTienePieza(jugadorActual, resultado)) {
 
             tipoPermitido = resultado;
@@ -338,36 +300,51 @@ public class Tablero extends JPanel implements ActionListener {
                             "\nDebes mover esa pieza."
             );
 
+            // Ya encontró una pieza válida.
+            // No puede volver a girar.
             girar.setEnabled(false);
+
             return;
         }
 
-        // Por seguridad, si no tiene la pieza
+        // ------------------------------------------------
+        // CAYÓ EN UNA PIEZA GRIS
+        // ------------------------------------------------
+
         int girosPermitidos = calcularGirosPermitidos(jugadorActual);
 
-        System.out.println("El jugador no tiene esa pieza.");
+        System.out.println("Cayó en GRIS.");
         System.out.println("Giros permitidos: " + girosPermitidos);
+        System.out.println("Giros usados: " + girosUsados);
 
+        // Todavía tiene otro intento
         if (girosUsados < girosPermitidos) {
 
             JOptionPane.showMessageDialog(
                     this,
-                    "No tienes esa pieza.\n" +
+                    "Cayó en una pieza eliminada.\n" +
                             "Puedes girar nuevamente."
             );
 
+            // El jugador tiene que presionar GIRAR
             girar.setEnabled(true);
+
             return;
         }
 
+        // ------------------------------------------------
+        // YA NO LE QUEDAN GIROS
+        // ------------------------------------------------
+
         JOptionPane.showMessageDialog(
                 this,
-                "No tienes esa pieza.\n" +
+                "Cayó en una pieza eliminada.\n" +
                         "Ya no tienes más giros.\n" +
                         "Pierdes el turno."
         );
 
         girar.setEnabled(false);
+
         pasarTurno();
     }
 
@@ -394,7 +371,9 @@ public class Tablero extends JPanel implements ActionListener {
             perdidas = piezasPerdidasJ2;
         }
 
-        return 1 + perdidas;
+        // 1 giro base + 1 giro extra por cada 2 piezas perdidas
+        // (perdidas=0 o 1 -> 1 giro; perdidas=2 o 3 -> 2 giros; perdidas=4 o 5 -> 3 giros)
+        return 1 + (perdidas / 2);
     }
 
     private void pasarTurno() {
@@ -410,19 +389,12 @@ public class Tablero extends JPanel implements ActionListener {
         actualizarRuletaDisponibilidad();
         System.out.println("Turno de jugador: " + jugadorActual);
         registrarLog("--- Turno de jugador " + jugadorActual + " ---");
-        if (jugadorActual == 1){
-            indicadorJugador.setText("Turno de Jugador 1");
 
-
-        }else if(jugadorActual==2){
-            indicadorJugador.setText("Turno de Jugador 2");
-
-
+        if (jugadorActual == 1) {
+            indicadorJugador.setText("Turno de " + nombreJugador1);
+        } else {
+            indicadorJugador.setText("Turno de " + nombreJugador2);
         }
-
-        this.add(indicadorJugador);
-
-
     }
 
 
@@ -576,6 +548,12 @@ public class Tablero extends JPanel implements ActionListener {
                 terminarPorVictoria(jugadorActual, duenioDerrotado);
                 return;
             }
+
+            if (jugadorSoloTieneZombies(duenioDerrotado)) {
+                mostrarPiezas();
+                terminarPorVictoria(jugadorActual, duenioDerrotado);
+                return;
+            }
         }
 
         mostrarPiezas();
@@ -584,9 +562,15 @@ public class Tablero extends JPanel implements ActionListener {
 
     private void registrarPiezaPerdida(int duenio, TipoPieza tipo) {
 
+        //El Zombie no cuenta para los giros extra de la ruleta (no forma parte
+        //de la selección aleatoria, según la sección 2.2 del documento)
+        boolean cuentaParaGiros = tipo != TipoPieza.zombie;
+
         if (duenio == 1) {
 
-            piezasPerdidasJ1++;
+            if (cuentaParaGiros) {
+                piezasPerdidasJ1++;
+            }
 
             if (tipo == TipoPieza.hombre_lobo) {
                 loboPerdidoJ1++;
@@ -602,7 +586,9 @@ public class Tablero extends JPanel implements ActionListener {
 
         } else {
 
-            piezasPerdidasJ2++;
+            if (cuentaParaGiros) {
+                piezasPerdidasJ2++;
+            }
 
             if (tipo == TipoPieza.hombre_lobo) {
                 loboPerdidoJ2++;
@@ -649,6 +635,28 @@ public class Tablero extends JPanel implements ActionListener {
             }
         }
         return true;
+    }
+
+    //Revisa si al jugador "duenio" ya no le queda ninguna pieza principal
+    //(lobo, vampiro o necrómante) y solo tiene Zombies en el tablero
+    private boolean jugadorSoloTieneZombies(int duenio) {
+        boolean tieneAlgunaPieza = false;
+
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                Pieza p = tablero[i][j];
+
+                if (p != null && p.getDuenio() == duenio) {
+                    tieneAlgunaPieza = true;
+
+                    if (p.getTipo() != TipoPieza.zombie) {
+                        return false; //todavía tiene al menos una pieza principal
+                    }
+                }
+            }
+        }
+
+        return tieneAlgunaPieza;
     }
 
     private void terminarPorVictoria(int ganador, int perdedor) {
