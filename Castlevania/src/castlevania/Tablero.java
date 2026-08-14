@@ -438,19 +438,9 @@ public class Tablero extends JPanel implements ActionListener {
         }
 
         //El Hombre Lobo se mueve hasta 2 casillas, pero no puede saltar sobre una pieza
-        if (piezaSeleccionada.getTipo() == TipoPieza.hombre_lobo) {
-            int dFila = filaDestino - filaSeleccionada;
-            int dColumna = columnaDestino - columnaSeleccionada;
-
-            if (Math.abs(dFila) == 2 || Math.abs(dColumna) == 2) {
-                int filaMedio = filaSeleccionada + dFila / 2;
-                int columnaMedio = columnaSeleccionada + dColumna / 2;
-
-                if (tablero[filaMedio][columnaMedio] != null) {
-                    System.out.println("Hay una pieza en el camino");
-                    return;
-                }
-            }
+        if (hayPiezaEnElCamino(filaDestino, columnaDestino)) {
+            System.out.println("Hay una pieza en el camino");
+            return;
         }
 
         tablero[filaSeleccionada][columnaSeleccionada] = null;
@@ -614,8 +604,52 @@ public class Tablero extends JPanel implements ActionListener {
 
 
 
+    //El Hombre Lobo salta la casilla del medio cuando se mueve 2 casillas; revisa que no haya pieza ahí
+    private boolean hayPiezaEnElCamino(int filaDestino, int columnaDestino) {
+        if (piezaSeleccionada.getTipo() != TipoPieza.hombre_lobo) {
+            return false;
+        }
+
+        int dFila = filaDestino - filaSeleccionada;
+        int dColumna = columnaDestino - columnaSeleccionada;
+
+        if (Math.abs(dFila) == 2 || Math.abs(dColumna) == 2) {
+            int filaMedio = filaSeleccionada + dFila / 2;
+            int columnaMedio = columnaSeleccionada + dColumna / 2;
+
+            return tablero[filaMedio][columnaMedio] != null;
+        }
+
+        return false;
+    }
+
+    //Pinta de verde las casillas vacías a las que la pieza seleccionada se puede mover
+    private void marcarCasillasDeMovimiento() {
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                if (tablero[i][j] == null && piezaSeleccionada.puedeMover(i, j) && !hayPiezaEnElCamino(i, j)) {
+                    pos[i][j].setBackground(new Color(46, 139, 46));
+                }
+            }
+        }
+    }
+
+    //Regresa las casillas al color ajedrezado normal
+    private void quitarMarcasDeMovimiento() {
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                if ((i + j) % 2 == 0) {
+                    pos[i][j].setBackground(new Color(98, 24, 21));
+                } else {
+                    pos[i][j].setBackground(new Color(29, 29, 28));
+                }
+            }
+        }
+    }
+
     //Limpia la selección actual y pasa el turno si la partida sigue
     private void finalizarAccion() {
+        quitarMarcasDeMovimiento();
         piezaSeleccionada = null;
         filaSeleccionada = -1;
         columnaSeleccionada = -1;
@@ -775,6 +809,7 @@ public class Tablero extends JPanel implements ActionListener {
                         filaSeleccionada = i;
                         columnaSeleccionada = j;
                         actualizarBotonHabilidadEspecial();
+                        marcarCasillasDeMovimiento();
 
                         System.out.println("Pieza seleccionada");
                         System.out.println("Tipo: " + piezaSeleccionada.getTipo());

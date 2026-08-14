@@ -15,7 +15,15 @@ public class HombreLobo extends Pieza{
     public boolean puedeMover(int filaDestino, int columnaDestino) {
         int Dfila = Math.abs(filaDestino-this.fila);
         int Dcolumna = Math.abs(columnaDestino-this.columna);
-        return Dfila<=2 && Dcolumna<=2 && (Dfila!=0 || Dcolumna!=0);
+
+        if (Dfila == 0 && Dcolumna == 0) {
+            return false;
+        }
+
+        //Solo en linea recta: horizontal, vertical o diagonal
+        boolean esLineaRecta = Dfila == 0 || Dcolumna == 0 || Dfila == Dcolumna;
+
+        return esLineaRecta && Dfila <= 2 && Dcolumna <= 2;
 
     }
 }
