@@ -45,34 +45,34 @@ public class IniciarSesion extends JPanel implements ActionListener {
         JLabel titulo = new JLabel("Iniciar Sesión");
         titulo.setHorizontalAlignment(SwingConstants.CENTER);
         titulo.setForeground(colorTitulo);
-        titulo.setFont(new Font("Old English Text MT", Font.BOLD, 70));
+        titulo.setFont(new Font("Angel wish", Font.BOLD, 70));
         titulo.setBounds(boxX, 150, boxWidth, 90);
 
         // Etiquetas
         JLabel labelUsuario = new JLabel("Usuario:");
         labelUsuario.setForeground(colorTextoBotones);
-        labelUsuario.setFont(new Font("Old English Text MT", Font.BOLD, 28));
+        labelUsuario.setFont(new Font("Angel wish", Font.BOLD, 28));
         labelUsuario.setBounds(boxX, 280, 150, 40);
 
         JLabel labelContrasenia = new JLabel("Contraseña:");
         labelContrasenia.setForeground(colorTextoBotones);
-        labelContrasenia.setFont(new Font("Old English Text MT", Font.BOLD, 28));
+        labelContrasenia.setFont(new Font("Angel wish", Font.BOLD, 28));
         labelContrasenia.setBounds(boxX, 350, 150, 40);
 
         // Campos
         campoUsuario.setBounds(boxX + 160, 280, 360, 35);
-        campoUsuario.setFont(new Font("Serif", Font.PLAIN, 18));
+        campoUsuario.setFont(new Font("Blackletter Shadow", Font.PLAIN, 18));
         estilizarCampo(campoUsuario);
 
         campoContrasenia.setBounds(boxX + 160, 350, 280, 35);
-        campoContrasenia.setFont(new Font("Serif", Font.PLAIN, 18));
+        campoContrasenia.setFont(new Font("Blackletter Shadow", Font.PLAIN, 18));
         estilizarCampo(campoContrasenia);
 
         // Boton para mostrar/ocultar la contraseña
         botonMostrarContrasenia.setText("Ver");
         botonMostrarContrasenia.setContentAreaFilled(false);
         botonMostrarContrasenia.setForeground(colorTextoBotones);
-        botonMostrarContrasenia.setFont(new Font("Serif", Font.BOLD, 14));
+        botonMostrarContrasenia.setFont(new Font("Blackletter Shadow", Font.BOLD, 14));
         botonMostrarContrasenia.setBounds(boxX + 450, 350, 90, 35);
         botonMostrarContrasenia.setFocusable(false);
         botonMostrarContrasenia.setBorderPainted(true);
@@ -86,7 +86,7 @@ public class IniciarSesion extends JPanel implements ActionListener {
         botonEntrar.setContentAreaFilled(false);
         botonEntrar.setText("Entrar");
         botonEntrar.setForeground(colorTextoBotones);
-        botonEntrar.setFont(new Font("Old English Text MT", Font.BOLD, 38));
+        botonEntrar.setFont(new Font("Angel wish", Font.BOLD, 38));
         botonEntrar.setBounds(botonX, 430, botonAncho, 80);
         botonEntrar.setFocusable(false);
         botonEntrar.setBorderPainted(false);
@@ -95,7 +95,7 @@ public class IniciarSesion extends JPanel implements ActionListener {
         botonVolver.setContentAreaFilled(false);
         botonVolver.setText("Volver");
         botonVolver.setForeground(colorTextoBotones);
-        botonVolver.setFont(new Font("Old English Text MT", Font.BOLD, 38));
+        botonVolver.setFont(new Font("Angel wish", Font.BOLD, 38));
         botonVolver.setBounds(botonX, 520, botonAncho, 80);
         botonVolver.setFocusable(false);
         botonVolver.setBorderPainted(false);

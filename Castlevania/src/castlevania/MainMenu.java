@@ -6,9 +6,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.HashSet;
 import javax.swing.ImageIcon;
-import java.awt.Dimension;
 import javax.swing.JLabel;
 
 import javax.sound.sampled.AudioSystem;
@@ -30,12 +28,12 @@ public class MainMenu extends JPanel implements ActionListener {
         this.setLayout(new BorderLayout());
 
         // Musica
-//        try {
-//            Clip clip = AudioSystem.getClip();
-//            clip.open(AudioSystem.getAudioInputStream(Main.class.getResource("/resources/ost.wav")));
-//            clip.loop(Clip.LOOP_CONTINUOUSLY);
-//        } catch (IOException | LineUnavailableException | UnsupportedAudioFileException e) {
-//        }
+        try {
+            Clip clip = AudioSystem.getClip();
+            clip.open(AudioSystem.getAudioInputStream(Main.class.getResource("/resources/ost.wav")));
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+        } catch (IOException | LineUnavailableException | UnsupportedAudioFileException e) {
+        }
 
         //BACKGROUNS 
         ImageIcon background = new ImageIcon(Main.class.getResource("/resources/mainmenu_background1.png"));
@@ -48,7 +46,7 @@ public class MainMenu extends JPanel implements ActionListener {
         JLabel titulo = new JLabel();
         titulo.setText("Vampire Wargame");
         titulo.setForeground(new Color(169, 47, 67));
-        titulo.setFont(new Font("Old English Text MT", Font.BOLD, 98));
+        titulo.setFont(new Font("Angel wish", Font.BOLD, 98));
 //        titulo.setBorder(new EmptyBorder(80, 80, 80, 80));
 //        titulo.setHorizontalAlignment(SwingConstants.LEFT);
 //        titulo.setVerticalAlignment(SwingConstants.TOP);
@@ -58,7 +56,7 @@ public class MainMenu extends JPanel implements ActionListener {
         Ini_sesion.setContentAreaFilled(false);
         Ini_sesion.setText("Iniciar Sesion");
         Ini_sesion.setForeground(new Color(204, 0, 11));
-        Ini_sesion.setFont(new Font("Old English Text MT", Font.BOLD, 38));
+        Ini_sesion.setFont(new Font("Angel wish", Font.BOLD, 38));
         Ini_sesion.setBounds(50, 350, 300, 80);
         Ini_sesion.setFocusable(false);
 //        Ini_sesion.setOpaque(true);
@@ -71,7 +69,7 @@ public class MainMenu extends JPanel implements ActionListener {
         Crear_j.setContentAreaFilled(false);
         Crear_j.setText("Crear Jugador");
         Crear_j.setForeground(new Color(204, 0, 11));
-        Crear_j.setFont(new Font("Old English Text MT", Font.BOLD, 38));
+        Crear_j.setFont(new Font("Angel wish", Font.BOLD, 38));
         Crear_j.setBounds(50, 450, 300, 80);
         Crear_j.setFocusable(false);
 //        Crear_j.setOpaque(true);
@@ -84,8 +82,8 @@ public class MainMenu extends JPanel implements ActionListener {
         salir.setContentAreaFilled(false);
         salir.setText("Salir");
         salir.setForeground(new Color(204, 0, 11));
-        salir.setFont(new Font("Old English Text MT", Font.BOLD, 38));
-        salir.setBounds(-20, 550, 300, 80);
+        salir.setFont(new Font("Angel wish", Font.BOLD, 38));
+        salir.setBounds(-10, 550, 300, 80);
         salir.setFocusable(false);
 //        salir.setOpaque(true);
 //        salir.setBackground(new Color(0,0,0,50));

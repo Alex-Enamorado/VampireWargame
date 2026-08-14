@@ -30,7 +30,7 @@ public class MiCuenta extends JPanel implements ActionListener {
         JLabel titulo = new JLabel("Mi Cuenta");
         titulo.setHorizontalAlignment(SwingConstants.CENTER);
         titulo.setForeground(colorTitulo);
-        titulo.setFont(new Font("Old English Text MT", Font.BOLD, 60));
+        titulo.setFont(new Font("Angel wish", Font.BOLD, 60));
         titulo.setBounds(boxX, 120, boxWidth, 90);
 
         JLabel info = new JLabel(
@@ -40,7 +40,7 @@ public class MiCuenta extends JPanel implements ActionListener {
         );
         info.setHorizontalAlignment(SwingConstants.CENTER);
         info.setForeground(Color.WHITE);
-        info.setFont(new Font("Serif", Font.PLAIN, 20));
+        info.setFont(new Font("Blackletter Shadow", Font.PLAIN, 20));
         info.setBounds(boxX, 230, boxWidth, 100);
 
         int botonAncho = 300;
@@ -63,7 +63,7 @@ public class MiCuenta extends JPanel implements ActionListener {
         boton.setText(texto);
         boton.setContentAreaFilled(false);
         boton.setForeground(colorTextoBotones);
-        boton.setFont(new Font("Old English Text MT", Font.BOLD, 29));
+        boton.setFont(new Font("Angel wish", Font.BOLD, 29));
         boton.setBounds(x, y, 300, 80);
         boton.setFocusable(false);
         boton.setBorderPainted(false);

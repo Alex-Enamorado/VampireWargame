@@ -17,13 +17,13 @@ public class HistorialJuegos extends JPanel implements ActionListener {
         //Crea mi titulo
         JLabel titulo = new JLabel("Mi Historial de Juegos", SwingConstants.CENTER);
         titulo.setForeground(new Color(169, 47, 67));
-        titulo.setFont(new Font("Old English Text MT", Font.BOLD, 48));
+        titulo.setFont(new Font("Angel wish", Font.BOLD, 48));
         titulo.setBorder(BorderFactory.createEmptyBorder(30, 0, 20, 0));
         //Area donde se hara display el historial
         texto.setEditable(false);
         texto.setLineWrap(true);
         texto.setWrapStyleWord(true);
-        texto.setFont(new Font("Serif", Font.PLAIN, 20));
+        texto.setFont(new Font("Blackletter Shadow", Font.PLAIN, 20));
         texto.setBackground(new Color(29, 29, 28));
         texto.setForeground(Color.WHITE);
         texto.setText(construirTexto());
@@ -45,7 +45,7 @@ public class HistorialJuegos extends JPanel implements ActionListener {
         volver.setText("Volver");
         volver.setContentAreaFilled(false);
         volver.setForeground(new Color(204, 0, 11));
-        volver.setFont(new Font("Old English Text MT", Font.BOLD, 30));
+        volver.setFont(new Font("Angel wish", Font.BOLD, 30));
         volver.setFocusable(false);
         volver.setBorderPainted(false);
         volver.addActionListener(this);

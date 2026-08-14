@@ -32,7 +32,7 @@ public class MenuPrincipal extends JPanel implements ActionListener {
         JLabel titulo = new JLabel("Bienvenido, " + nombre);
         titulo.setHorizontalAlignment(SwingConstants.CENTER);
         titulo.setForeground(colorTitulo);
-        titulo.setFont(new Font("Old English Text MT", Font.BOLD, 48));
+        titulo.setFont(new Font("Angel wish", Font.BOLD, 48));
         titulo.setBounds(boxX, 100, boxWidth, 80);
 
         int botonAncho = 400;
@@ -64,7 +64,7 @@ public class MenuPrincipal extends JPanel implements ActionListener {
         boton.setText(texto);
         boton.setContentAreaFilled(false);
         boton.setForeground(colorTextoBotones);
-        boton.setFont(new Font("Old English Text MT", Font.BOLD, 30));
+        boton.setFont(new Font("Angel wish", Font.BOLD, 30));
         boton.setBounds(x, y, 400, 70);
         boton.setFocusable(false);
         boton.setBorderPainted(false);

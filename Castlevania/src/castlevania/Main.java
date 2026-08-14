@@ -1,24 +1,22 @@
 package castlevania;
 
-import java.awt.Color;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
+import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import javax.swing.JOptionPane;
 
 public class Main {
 
     public static void main(String[] args) {
 
-
         System.setProperty("sun.awt.exception.handler", ManejadorExcepciones.class.getName());
 
 
-        Thread.setDefaultUncaughtExceptionHandler((hilo, error) -> {
-            error.printStackTrace();
-            JOptionPane.showMessageDialog(null,
-                    "Ocurrió un error inesperado:\n" + error.getMessage(),
-                    "Error", JOptionPane.ERROR_MESSAGE);
-        });
+
+        try {
+            Font fuenteMain = Font.createFont(Font.TRUETYPE_FONT, Main.class.getResourceAsStream("/resources/fonts/main.ttf"));
+            GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(fuenteMain);
+        } catch (Exception e) {
+        }
 
         try {
             MyFrame ventana = new MyFrame();

@@ -40,28 +40,28 @@ public class CrearJugador extends JPanel implements ActionListener {
         JLabel titulo = new JLabel("Crear Jugador");
         titulo.setHorizontalAlignment(SwingConstants.CENTER);
         titulo.setForeground(colorTitulo);
-        titulo.setFont(new Font("Old English Text MT", Font.BOLD, 60));
+        titulo.setFont(new Font("Angel wish", Font.BOLD, 60));
         titulo.setBounds(boxX, 150, boxWidth, 90);
 
         //Crear label de usuario
         JLabel labelUsuario = new JLabel("Usuario:");
         labelUsuario.setForeground(colorTextoBotones);
-        labelUsuario.setFont(new Font("Old English Text MT", Font.BOLD, 28));
+        labelUsuario.setFont(new Font("Angel wish", Font.BOLD, 28));
         labelUsuario.setBounds(boxX, 280, 150, 40);
         //Crea label de contrasseña
         JLabel labelContrasenia = new JLabel("Contraseña (5):");
         labelContrasenia.setForeground(colorTextoBotones);
-        labelContrasenia.setFont(new Font("Old English Text MT", Font.BOLD, 24));
+        labelContrasenia.setFont(new Font("Angel wish", Font.BOLD, 24));
         labelContrasenia.setBounds(boxX, 350, 200, 40);
 
         //Da espacio para escribir el usuario
         campoUsuario.setBounds(boxX + 160, 280, 360, 35);
-        campoUsuario.setFont(new Font("Serif", Font.PLAIN, 18));
+        campoUsuario.setFont(new Font("Blackletter Shadow", Font.PLAIN, 18));
         estilizarCampo(campoUsuario);
 
         //Crea el espacio para escribir la constraseña
         campoContrasenia.setBounds(boxX + 210, 350, 230, 35);
-        campoContrasenia.setFont(new Font("Serif", Font.PLAIN, 18));
+        campoContrasenia.setFont(new Font("Blackletter Shadow", Font.PLAIN, 18));
         estilizarCampo(campoContrasenia);
 
 
@@ -69,7 +69,7 @@ public class CrearJugador extends JPanel implements ActionListener {
         botonMostrarContrasenia.setText("Ver");
         botonMostrarContrasenia.setContentAreaFilled(false);
         botonMostrarContrasenia.setForeground(colorTextoBotones);
-        botonMostrarContrasenia.setFont(new Font("Serif", Font.BOLD, 14));
+        botonMostrarContrasenia.setFont(new Font("Blackletter Shadow", Font.BOLD, 14));
         botonMostrarContrasenia.setBounds(boxX + 450, 350, 90, 35);
         botonMostrarContrasenia.setFocusable(false);
         botonMostrarContrasenia.setBorder(BorderFactory.createLineBorder(colorCampoBorde, 1));
@@ -81,7 +81,7 @@ public class CrearJugador extends JPanel implements ActionListener {
         botonCrear.setContentAreaFilled(false);
         botonCrear.setText("Crear");
         botonCrear.setForeground(colorTextoBotones);
-        botonCrear.setFont(new Font("Old English Text MT", Font.BOLD, 38));
+        botonCrear.setFont(new Font("Angel wish", Font.BOLD, 38));
         botonCrear.setBounds(botonX, 430, botonAncho, 80);
         botonCrear.setFocusable(false);
         botonCrear.setBorderPainted(false);
@@ -90,7 +90,7 @@ public class CrearJugador extends JPanel implements ActionListener {
         botonVolver.setContentAreaFilled(false);
         botonVolver.setText("Volver");
         botonVolver.setForeground(colorTextoBotones);
-        botonVolver.setFont(new Font("Old English Text MT", Font.BOLD, 38));
+        botonVolver.setFont(new Font("Angel wish", Font.BOLD, 38));
         botonVolver.setBounds(botonX, 520, botonAncho, 80);
         botonVolver.setFocusable(false);
         botonVolver.setBorderPainted(false);

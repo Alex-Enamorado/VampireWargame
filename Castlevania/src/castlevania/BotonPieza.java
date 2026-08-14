@@ -9,16 +9,14 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.io.InputStream;
 
-//Es un JButton normal, solo que sabe dibujarse a sí mismo:
-//la imagen de la pieza ocupando casi toda la casilla, y arriba a la derecha,
-//bien chiquito, un iconito + un número por stat (escudo azul, vida roja, ataque gris)
+
 public class BotonPieza extends JButton {
 
-    //Tamaño del iconito de cada stat (chiquito, va encima de la pieza)
+    //Tamaño del iconito de cada stat
     private static final int TAMANO_ICONO_STAT = 12;
     private static final int ALTO_FILA_STAT = 15;
 
-    //Estos íconos y la fuente se cargan UNA sola vez para todas las casillas
+    //Estos íconos
     private static final Image ICONO_ESCUDO = cargarImagen("/resources/icono_escudo.png");
     private static final Image ICONO_VIDA = cargarImagen("/resources/icono_vida.png");
     private static final Image ICONO_ATAQUE = cargarImagen("/resources/icono_ataque.png");
@@ -83,7 +81,7 @@ public class BotonPieza extends JButton {
         int margen = 4;
         g2.drawImage(imagenPieza, margen, margen, ancho - (margen * 2), alto - (margen * 2), this);
 
-        //Los stats van chiquitos, apilados arriba a la derecha, encima de la pieza
+        //Los stats van chiquitos, apilados arriba a la derecha
         int xStats = ancho - 36;
         int yInicial = 4;
 

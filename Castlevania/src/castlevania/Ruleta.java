@@ -32,8 +32,6 @@ public class Ruleta extends JPanel{
     private int lobosVivos = 2;
     private int vampirosVivos = 2;
     private int necromantesVivos = 2;
-    private boolean cayoEnGris = false;
-    private int indiceResultado;
 
 
 
@@ -79,10 +77,6 @@ public class Ruleta extends JPanel{
         this.onResultado = callback;
     }
 
-    public boolean cayoEnGris() {
-        return cayoEnGris;
-    }
-
     private TipoPieza calcularResultado() {
 
         double anguloNormalizado = (270 - angulo) % 360;
@@ -92,13 +86,33 @@ public class Ruleta extends JPanel{
         }
 
         int indice = (int) (anguloNormalizado / 60);
-        indiceResultado = indice;
 
         TipoPieza resultado = secciones[indice];
 
         System.out.println("Resultado de la ruleta: " + resultado + " (sección " + indice + ")");
 
+        // Si cayó en un ícono gris, no cuenta como resultado válido
+        if (esGris(resultado, indice)) {
+            System.out.println("Cayó en una pieza eliminada, no cuenta.");
+            return null;
+        }
+
         return resultado;
+    }
+
+
+    // Misma regla que se usa para pintar el ícono en gris
+    private boolean esGris(TipoPieza tipo, int i) {
+        if (tipo == TipoPieza.hombre_lobo) {
+            return lobosVivos == 0 || (lobosVivos == 1 && i == 3);
+        }
+        if (tipo == TipoPieza.vampiro) {
+            return vampirosVivos == 0 || (vampirosVivos == 1 && i == 4);
+        }
+        if (tipo == TipoPieza.necromante) {
+            return necromantesVivos == 0 || (necromantesVivos == 1 && i == 5);
+        }
+        return false;
     }
 
 
@@ -110,29 +124,6 @@ public class Ruleta extends JPanel{
 
         repaint();
     }
-
-    public boolean resultadoEsGris() {
-
-        TipoPieza tipo = secciones[indiceResultado];
-
-        if (tipo == TipoPieza.hombre_lobo) {
-            if (lobosVivos == 0) return true;
-            return lobosVivos == 1 && indiceResultado == 3;
-        }
-
-        if (tipo == TipoPieza.vampiro) {
-            if (vampirosVivos == 0) return true;
-            return vampirosVivos == 1 && indiceResultado == 4;
-        }
-
-        if (tipo == TipoPieza.necromante) {
-            if (necromantesVivos == 0) return true;
-            return necromantesVivos == 1 && indiceResultado == 5;
-        }
-
-        return false;
-    }
-
 
 
 
@@ -208,33 +199,8 @@ public class Ruleta extends JPanel{
             // Primero mostramos la imagen normal
             Image img = imagenParaTipo(tipo);
 
-            // Si se perdi un lobo ponemos gris uno de los dos
-            if (tipo == TipoPieza.hombre_lobo && lobosVivos == 1 && i == 3) {
-                img = imagenGris(tipo);
-            }
-
-            // Si se perdieron los dos lobos los dos grises
-            if (tipo == TipoPieza.hombre_lobo && lobosVivos == 0) {
-                img = imagenGris(tipo);
-            }
-
-            // Si se perdio un vampiro ponemos gris uno de los dos
-            if (tipo == TipoPieza.vampiro && vampirosVivos == 1 && i == 4) {
-                img = imagenGris(tipo);
-            }
-
-            // Si se perdieron los dos vampiros los dos grises
-            if (tipo == TipoPieza.vampiro && vampirosVivos == 0) {
-                img = imagenGris(tipo);
-            }
-
-            // Si se perdio un necromante ponemos gris uno de los dos
-            if (tipo == TipoPieza.necromante && necromantesVivos == 1 && i == 5) {
-                img = imagenGris(tipo);
-            }
-
-            // Si se perdieron los dos necromantes los dos grises
-            if (tipo == TipoPieza.necromante && necromantesVivos == 0) {
+            // Si ya no queda esa pieza (o ya se perdió la de este lado) se pinta gris
+            if (esGris(tipo, i)) {
                 img = imagenGris(tipo);
             }
 
