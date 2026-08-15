@@ -111,7 +111,7 @@ public class MenuPrincipal extends JPanel implements ActionListener {
 
     private void iniciarNuevaPartida(JFrame frame) {
 
-        //Buscamos oponentes disponibles (activos, distintos al jugador actual)
+        //Buscamos oponentes disponibles
         Jugador[] todos = Sesion.gestorJugadores.getJugadores();
         int cantidad = Sesion.gestorJugadores.getCantidad();
 

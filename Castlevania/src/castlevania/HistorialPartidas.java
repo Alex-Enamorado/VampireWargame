@@ -1,6 +1,6 @@
 package castlevania;
 
-//Guarda el historial de partidas terminadas en un arreglo simple (en memoria, sin archivos)
+//Guarda el historial de partidas terminadas en un arreglo simple
 public class HistorialPartidas implements IHistorialPartidas {
 
     private RegistroPartida[] registros = new RegistroPartida[200]; //arreglo donde se guarda el registro de las partidas jugadas.

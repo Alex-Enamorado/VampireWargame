@@ -13,11 +13,11 @@ public class IniciarSesion extends JPanel implements ActionListener {
     private JButton botonVolver = new JButton();
     private JButton botonMostrarContrasenia = new JButton();
 
-    // Guardamos el caracter original de "oculto" para poder restaurarlo
+    // Guardamos el caracter original de "oculto" para poder mostrarlo
     private final char echoCharOculto;
     private boolean contraseniaVisible = false;
 
-    // Colores del tema (mismos tonos que el resto de la app)
+    // Colores
     private final Color colorTextoBotones = new Color(204, 0, 11);
     private final Color colorTitulo = new Color(169, 47, 67);
     private final Color colorCampoFondo = new Color(30, 18, 20);      // fondo oscuro tipo "pergamino gótico"
@@ -27,21 +27,20 @@ public class IniciarSesion extends JPanel implements ActionListener {
     public IniciarSesion() {
         this.setLayout(new BorderLayout());
 
+        //Fondo de la pantalla de iniocio de sesiojn
         ImageIcon background = new ImageIcon(Main.class.getResource("/resources/mainmenu_background1.png"));
         JLabel background_image = new JLabel();
         background_image.setLayout(null);
         background_image.setIcon(background);
 
-        // ===== Bloque centrado =====
-        // La ventana (MyFrame) mide 1600 x 900, así que centramos un "recuadro"
-        // lógico de 560 px de ancho horizontalmente.
+//       Centrado en una caja
         int boxWidth = 560;
         int boxX = (1600 - boxWidth) / 2;
 
         // Guardamos el echoChar por defecto (el que usa Swing para ocultar la contraseña)
         echoCharOculto = campoContrasenia.getEchoChar();
 
-        // Titulo (centrado dentro del recuadro)
+        // Titulo
         JLabel titulo = new JLabel("Iniciar Sesión");
         titulo.setHorizontalAlignment(SwingConstants.CENTER);
         titulo.setForeground(colorTitulo);
@@ -79,7 +78,7 @@ public class IniciarSesion extends JPanel implements ActionListener {
         botonMostrarContrasenia.setBorder(BorderFactory.createLineBorder(colorCampoBorde, 1));
         botonMostrarContrasenia.addActionListener(this);
 
-        // Botones (mismo estilo que MainMenu, ahora centrados en el recuadro)
+        // Botones
         int botonAncho = 300;
         int botonX = boxX + (boxWidth - botonAncho) / 2;
 
@@ -113,10 +112,7 @@ public class IniciarSesion extends JPanel implements ActionListener {
         this.add(background_image);
     }
 
-    /**
-     * Aplica el estilo visual (fondo, texto, borde) a un campo de texto
-     * para que combine con el tema gótico de la aplicación.
-     */
+
     private void estilizarCampo(JTextField campo) {
         campo.setBackground(colorCampoFondo);
         campo.setForeground(colorCampoTexto);

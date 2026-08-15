@@ -22,6 +22,7 @@ public class CrearJugador extends JPanel implements ActionListener {
     private final Color colorCampoTexto = new Color(235, 220, 210);
     private final Color colorCampoBorde = new Color(169, 47, 67);
 
+    //Pantalla crear jugador
     public CrearJugador() {
         this.setLayout(new BorderLayout());
 

@@ -33,6 +33,7 @@ public class MiCuenta extends JPanel implements ActionListener {
         titulo.setFont(new Font("Angel wish", Font.BOLD, 60));
         titulo.setBounds(boxX, 120, boxWidth, 90);
 
+        //Se utiliza un poco de html para poder hacer que los datos esten en mas de una linea
         JLabel info = new JLabel(
                 "<html>Usuario: " + j.getUsuario() + "<br>"
                         + "Puntos: " + j.getPuntos() + "<br>"
@@ -59,6 +60,8 @@ public class MiCuenta extends JPanel implements ActionListener {
         this.add(background_image);
     }
 
+
+    //Configuracion del boton
     private void configurarBoton(JButton boton, String texto, int x, int y) {
         boton.setText(texto);
         boton.setContentAreaFilled(false);
@@ -86,7 +89,7 @@ public class MiCuenta extends JPanel implements ActionListener {
             String nueva = JOptionPane.showInputDialog(this, "Escribe tu nueva contraseña (5 caracteres):");
 
             if (nueva == null) {
-                return; //canceló
+                return; //cancelo
             }
 
             if (nueva.length() != 5) {

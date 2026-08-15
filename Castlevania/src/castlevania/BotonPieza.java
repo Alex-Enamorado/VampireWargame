@@ -27,10 +27,12 @@ public class BotonPieza extends JButton {
             return new ImageIcon(Main.class.getResource(ruta)).getImage();
         } catch (Exception e) {
             System.out.println("No se pudo cargar el ícono: " + ruta);
-            return null; //si todavía no existe el archivo, simplemente no se dibuja
+            return null; //si todavía no existe el archivo no lo carga
         }
     }
 
+
+    //Aqui cargamos la font de los stats
     private static Font cargarFontPixel() {
         try {
             InputStream in = Main.class.getResourceAsStream("/resources/fonts/pixel.ttf");
@@ -47,7 +49,7 @@ public class BotonPieza extends JButton {
     private Integer vida = null;
     private Integer ataque = null;
 
-    //Guarda la imagen de la pieza y sus 3 números para dibujarlos en el próximo repaint
+    //Guarda la imagen de la pieza y sus 3 numeros para dibujarlos en el proximo repaint
     public void mostrarPieza(Image imagenPieza, int escudo, int vida, int ataque) {
         this.imagenPieza = imagenPieza;
         this.escudo = escudo;
@@ -77,11 +79,11 @@ public class BotonPieza extends JButton {
         int ancho = getWidth();
         int alto = getHeight();
 
-        //La pieza ocupa casi toda la casilla, como antes
+        //La pieza ocupa casi toda la casilla
         int margen = 4;
         g2.drawImage(imagenPieza, margen, margen, ancho - (margen * 2), alto - (margen * 2), this);
 
-        //Los stats van chiquitos, apilados arriba a la derecha
+        //Los stats van chiquitos arriba a la derecha
         int xStats = ancho - 36;
         int yInicial = 4;
 

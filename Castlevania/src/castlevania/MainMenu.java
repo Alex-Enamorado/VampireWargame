@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JButton;
@@ -31,6 +32,8 @@ public class MainMenu extends JPanel implements ActionListener {
         try {
             Clip clip = AudioSystem.getClip();
             clip.open(AudioSystem.getAudioInputStream(Main.class.getResource("/resources/ost.wav")));
+            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            gainControl.setValue(-50.0f);
             clip.loop(Clip.LOOP_CONTINUOUSLY);
         } catch (IOException | LineUnavailableException | UnsupportedAudioFileException e) {
         }
@@ -47,9 +50,6 @@ public class MainMenu extends JPanel implements ActionListener {
         titulo.setText("Vampire Wargame");
         titulo.setForeground(new Color(169, 47, 67));
         titulo.setFont(new Font("Angel wish", Font.BOLD, 98));
-//        titulo.setBorder(new EmptyBorder(80, 80, 80, 80));
-//        titulo.setHorizontalAlignment(SwingConstants.LEFT);
-//        titulo.setVerticalAlignment(SwingConstants.TOP);
         titulo.setBounds(50, 200, 1000, 100);
 
         //Boton
@@ -59,8 +59,6 @@ public class MainMenu extends JPanel implements ActionListener {
         Ini_sesion.setFont(new Font("Angel wish", Font.BOLD, 38));
         Ini_sesion.setBounds(50, 350, 300, 80);
         Ini_sesion.setFocusable(false);
-//        Ini_sesion.setOpaque(true);
-//        Ini_sesion.setBackground(new Color(0,0,0,50));
 
         Ini_sesion.setBorderPainted(false);
         Ini_sesion.addActionListener(this);
@@ -72,8 +70,6 @@ public class MainMenu extends JPanel implements ActionListener {
         Crear_j.setFont(new Font("Angel wish", Font.BOLD, 38));
         Crear_j.setBounds(50, 450, 300, 80);
         Crear_j.setFocusable(false);
-//        Crear_j.setOpaque(true);
-//        Crear_j.setBackground(new Color(0,0,0,50));
 
         Crear_j.setBorderPainted(false);
         Crear_j.addActionListener(this);
@@ -85,21 +81,10 @@ public class MainMenu extends JPanel implements ActionListener {
         salir.setFont(new Font("Angel wish", Font.BOLD, 38));
         salir.setBounds(-10, 550, 300, 80);
         salir.setFocusable(false);
-//        salir.setOpaque(true);
-//        salir.setBackground(new Color(0,0,0,50));
 
         salir.setBorderPainted(false);
         salir.addActionListener(this);
 
-//        Ini_sesion.setHorizontalAlignment(SwingConstants.LEFT);
-//        Ini_sesion.setVerticalAlignment(SwingConstants.TOP);
-        //FRAME
-//        background_image.add(titulo);
-//        background_image.add(Ini_sesion);
-//        background_image.add(Crear_j);
-//        background_image.add(salir);
-//        this.add(background_image);
-//        this.setVisible(true);
         background_image.add(titulo);
         background_image.add(Ini_sesion);
         background_image.add(Crear_j);

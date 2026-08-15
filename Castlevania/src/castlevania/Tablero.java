@@ -824,7 +824,20 @@ public class Tablero extends JPanel implements ActionListener {
                     if (tablero[i][j] != null &&
                             tablero[i][j].getDuenio() == piezaSeleccionada.getDuenio()) {
 
-                        System.out.println("No puedes seleccionar otra pieza.");
+                        if (tablero[i][j].getTipo() != tipoPermitido) {
+                            System.out.println("Debes mover: " + tipoPermitido);
+                            return;
+                        }
+
+                        quitarMarcasDeMovimiento();
+
+                        piezaSeleccionada = tablero[i][j];
+                        filaSeleccionada = i;
+                        columnaSeleccionada = j;
+                        actualizarBotonHabilidadEspecial();
+                        marcarCasillasDeMovimiento();
+
+                        System.out.println("Cambiaste de pieza seleccionada");
                         return;
                     }
 
