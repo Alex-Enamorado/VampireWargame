@@ -152,8 +152,8 @@ public class MenuPrincipal extends JPanel implements ActionListener {
             return; //el jugador canceló
         }
 
-        Tablero tablero = new Tablero(Sesion.jugadorActual.getUsuario(), oponenteElegido);
-        frame.setContentPane(tablero);
+        ComoJugar comoJugar = new ComoJugar(Sesion.jugadorActual.getUsuario(), oponenteElegido);
+        frame.setContentPane(comoJugar);
         frame.revalidate();
         frame.repaint();
     }

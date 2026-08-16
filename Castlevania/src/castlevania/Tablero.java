@@ -41,7 +41,7 @@ public class Tablero extends JPanel implements ActionListener {
     private Pieza[][] tablero = new Pieza[6][6];
 
     JPanel grid = new JPanel();
-    private Ruleta ruleta=new Ruleta();
+    private Ruleta ruleta;
     JButton girar = new JButton();
 
 
@@ -171,13 +171,12 @@ public class Tablero extends JPanel implements ActionListener {
         girar.setBorderPainted(false);
         girar.setFocusable(false);
 
-        ruleta= new Ruleta();
+        ruleta= new Ruleta(this);
         ruleta.setBounds(25,150,300,300);
         ImageIcon selector = new ImageIcon(Main.class.getResource("/resources/selector.png"));
 //        System.out.println("Ancho selector: " + selector.getIconWidth());
         JLabel marcador=new JLabel(selector);
         marcador.setBounds(20,0,300,300);
-        ruleta.setOnResultado(this::procesarResultadoRuleta);
         marcador.setOpaque(false);
 
         this.add(marcador);
@@ -309,7 +308,7 @@ public class Tablero extends JPanel implements ActionListener {
 
 
     //Recibe el resultado de la ruleta y decide si el jugador debe mover, girar de nuevo o perder el turno
-    private void procesarResultadoRuleta(TipoPieza resultado) {
+    void procesarResultadoRuleta(TipoPieza resultado) {
 
         girosUsados++;
 
@@ -634,6 +633,17 @@ public class Tablero extends JPanel implements ActionListener {
         }
     }
 
+    //Pinta de verde todas las casillas vacías del tablero (usado al invocar un Zombie)
+    private void marcarCasillasParaInvocar() {
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                if (tablero[i][j] == null) {
+                    pos[i][j].setBackground(new Color(46, 139, 46));
+                }
+            }
+        }
+    }
+
     //Regresa las casillas al color ajedrezado normal
     private void quitarMarcasDeMovimiento() {
         for (int i = 0; i < filas; i++) {
@@ -768,12 +778,19 @@ public class Tablero extends JPanel implements ActionListener {
 
         if(e.getSource()==girar){
                 System.out.println("Girando");
+                girar.setEnabled(false);
                 ruleta.girar();
         }
 
         if (e.getSource() == habilidadEspecial) {
             usarHabilidadEspecial = true;
             habilidadEspecial.setEnabled(false);
+
+            //El Necrómante puede invocar en cualquier casilla vacía del tablero
+            if (piezaSeleccionada.getTipo() == TipoPieza.necromante) {
+                quitarMarcasDeMovimiento();
+                marcarCasillasParaInvocar();
+            }
             return;
         }
 

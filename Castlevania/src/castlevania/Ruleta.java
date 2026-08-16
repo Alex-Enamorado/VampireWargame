@@ -7,14 +7,17 @@ import javax.swing.*;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Random;
 
 /**
  *
  * @author aluk
  */
-public class Ruleta extends JPanel{
+public class Ruleta extends JPanel implements ActionListener{
 
+    private Tablero tablero;
     private Image imagenRuleta;
     private Image iconLobo;
     private Image iconVampiro;
@@ -35,8 +38,9 @@ public class Ruleta extends JPanel{
 
 
 
-    public Ruleta() {
+    public Ruleta(Tablero tablero) {
 
+        this.tablero = tablero;
         setOpaque(false);
         ImageIcon icono = new ImageIcon(Main.class.getResource("/resources/RULETA111.png"));
 
@@ -50,32 +54,12 @@ public class Ruleta extends JPanel{
 
         imagenRuleta = icono.getImage();
 
-        timer=new Timer(20,e->{
-
-            angulo += velocidad;
-            repaint();
-            velocidad *= 0.985;
-
-            if (velocidad < 0.3) {
-                timer.stop();
-                if (onResultado != null) {
-                    onResultado.accept(calcularResultado());
-                }
-            }
-
-
-
-        });
+        timer=new Timer(20,this);
 
 
     }
 
 
-    private java.util.function.Consumer<TipoPieza> onResultado;
-
-    public void setOnResultado(java.util.function.Consumer<TipoPieza> callback) {
-        this.onResultado = callback;
-    }
 
     private TipoPieza calcularResultado() {
 
@@ -236,6 +220,21 @@ public class Ruleta extends JPanel{
         angulo=rn.nextInt(0,361);
         velocidad=10;
         timer.start();
+    }
+
+
+    //Se ejecuta cada 20ms mientras gira la ruleta (evento del Timer)
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        angulo += velocidad;
+        repaint();
+        velocidad *= 0.985;
+
+        if (velocidad < 0.3) {
+            timer.stop();
+            tablero.procesarResultadoRuleta(calcularResultado());
+        }
     }
 
 }
