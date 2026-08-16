@@ -33,7 +33,7 @@ public class MainMenu extends JPanel implements ActionListener {
             Clip clip = AudioSystem.getClip();
             clip.open(AudioSystem.getAudioInputStream(Main.class.getResource("/resources/ost.wav")));
             FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            gainControl.setValue(-50.0f);
+            gainControl.setValue(-20.0f);
             clip.loop(Clip.LOOP_CONTINUOUSLY);
         } catch (IOException | LineUnavailableException | UnsupportedAudioFileException e) {
         }
