@@ -331,11 +331,7 @@ public class Tablero extends JPanel implements ActionListener {
                 nombrePieza = resultado.toString();
             }
 
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Cayó en: " + nombrePieza +
-                            "\nDebes mover esa pieza."
-            );
+            JOptionPane.showMessageDialog(this, "Debes mover: " + nombrePieza);
 
             //Pieza valida ya no se gira
             girar.setEnabled(false);
@@ -353,11 +349,7 @@ public class Tablero extends JPanel implements ActionListener {
         //Todavia tiene otro intento
         if (girosUsados < girosPermitidos) {
 
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Cayó en una pieza eliminada.\n" +
-                            "Puedes girar nuevamente."
-            );
+            JOptionPane.showMessageDialog(this, "Pieza eliminada, gira de nuevo.");
 
             //El jugador tiene que presionar
             girar.setEnabled(true);
@@ -366,12 +358,7 @@ public class Tablero extends JPanel implements ActionListener {
         }
 
         //pierde el turno
-        JOptionPane.showMessageDialog(
-                this,
-                "Cayó en una pieza eliminada.\n" +
-                        "Ya no tienes más giros.\n" +
-                        "Pierdes el turno."
-        );
+        JOptionPane.showMessageDialog(this, "Sin giros, pierdes el turno.");
 
         girar.setEnabled(false);
 
@@ -760,10 +747,8 @@ public class Tablero extends JPanel implements ActionListener {
         RegistroPartida registro = new RegistroPartida(nombreJugador1, nombreJugador2, mensaje);
         Sesion.registrarPartida(registro);
 
-        JOptionPane.showMessageDialog(this, mensaje);
-
         JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        frame.setContentPane(new MenuPrincipal());
+        frame.setContentPane(new Victoria(mensaje));
         frame.revalidate();
         frame.repaint();
     }
