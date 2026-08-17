@@ -50,6 +50,8 @@ public abstract class Pieza {
 
     }
 
+
+
     public boolean estaViva(){
         return vida>0;
     }
@@ -69,6 +71,8 @@ public abstract class Pieza {
     public int getColumna() {
         return columna;
     }
+
+
 
     public int getEscudo() {
         return escudo;

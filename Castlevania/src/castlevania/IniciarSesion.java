@@ -64,6 +64,8 @@ public class IniciarSesion extends JPanel implements ActionListener {
         campoContrasenia.setFont(new Font("Practical", Font.PLAIN, 9));
         estilizarCampo(campoContrasenia);
 
+
+
         // Boton para mostrar/ocultar la contraseña
         botonMostrarContrasenia.setText("Ver");
         botonMostrarContrasenia.setContentAreaFilled(false);
@@ -75,6 +77,8 @@ public class IniciarSesion extends JPanel implements ActionListener {
         botonMostrarContrasenia.setBorder(BorderFactory.createLineBorder(colorCampoBorde, 1));
         botonMostrarContrasenia.addActionListener(this);
 
+
+
         // Botones
         botonEntrar.setContentAreaFilled(false);
         botonEntrar.setText("Entrar");
@@ -85,6 +89,9 @@ public class IniciarSesion extends JPanel implements ActionListener {
         botonEntrar.setBorderPainted(false);
         botonEntrar.addActionListener(this);
 
+
+
+
         botonVolver.setContentAreaFilled(false);
         botonVolver.setText("Volver");
         botonVolver.setForeground(colorTextoBotones);
@@ -93,6 +100,9 @@ public class IniciarSesion extends JPanel implements ActionListener {
         botonVolver.setFocusable(false);
         botonVolver.setBorderPainted(false);
         botonVolver.addActionListener(this);
+
+
+
 
         background_image.add(titulo);
         background_image.add(labelUsuario);
@@ -107,6 +117,10 @@ public class IniciarSesion extends JPanel implements ActionListener {
     }
 
 
+
+
+
+
     private void estilizarCampo(JTextField campo) {
         campo.setBackground(colorCampoFondo);
         campo.setForeground(colorCampoTexto);
@@ -117,6 +131,11 @@ public class IniciarSesion extends JPanel implements ActionListener {
                 BorderFactory.createEmptyBorder(4, 8, 4, 8)
         ));
     }
+
+
+
+
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -134,12 +153,17 @@ public class IniciarSesion extends JPanel implements ActionListener {
             return;
         }
 
+
+
         if (e.getSource() == botonVolver) {
             frame.setContentPane(new MainMenu());
             frame.revalidate();
             frame.repaint();
             return;
         }
+
+
+
 
         if (e.getSource() == botonEntrar) {
 

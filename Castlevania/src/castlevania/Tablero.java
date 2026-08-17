@@ -720,6 +720,8 @@ public class Tablero extends JPanel implements ActionListener {
         cerrarPartida(ganador, mensaje);
     }
 
+
+
     //Termina la partida porque un jugador se retiro
     private void terminarPorRetiro(int retirado) {
         partidaTerminada = true;
@@ -736,6 +738,8 @@ public class Tablero extends JPanel implements ActionListener {
         cerrarPartida(ganador, mensaje);
     }
 
+
+
     //Le da los 3 puntos al ganador
     private void cerrarPartida(int numeroGanador, String mensaje) {
 
@@ -747,11 +751,16 @@ public class Tablero extends JPanel implements ActionListener {
         RegistroPartida registro = new RegistroPartida(nombreJugador1, nombreJugador2, mensaje);
         Sesion.registrarPartida(registro);
 
+
         JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
         frame.setContentPane(new Victoria(mensaje));
         frame.revalidate();
         frame.repaint();
     }
+
+
+
+
 
     //Maneja las accioens
     @Override
@@ -762,11 +771,16 @@ public class Tablero extends JPanel implements ActionListener {
                     "¿Seguro que quieres retirarte? Perderás la partida.",
                     "Retirarse", JOptionPane.YES_NO_OPTION);
 
+
+
             if (opcion == JOptionPane.YES_OPTION) {
                 terminarPorRetiro(jugadorActual);
             }
             return;
         }
+
+
+
 
         if(e.getSource()==girar){
                 System.out.println("Girando");
@@ -774,17 +788,23 @@ public class Tablero extends JPanel implements ActionListener {
                 ruleta.girar();
         }
 
+
+
         if (e.getSource() == habilidadEspecial) {
             usarHabilidadEspecial = true;
             habilidadEspecial.setEnabled(false);
 
-            //El Necrómante puede invocar en cualquier casilla
+
+
+            //El necromante puede invocar en cualquier lado
             if (piezaSeleccionada.getTipo() == TipoPieza.necromante) {
                 quitarMarcasDeMovimiento();
                 marcarCasillasParaInvocar();
             }
             return;
         }
+
+
 
         for (int i = 0; i < filas; i++) {
 
@@ -799,26 +819,35 @@ public class Tablero extends JPanel implements ActionListener {
                             return;
                         }
 
+
                         if (tablero[i][j].getDuenio() != jugadorActual) {
                             System.out.println("Esa pieza no es tuya");
                             return;
                         }
+
 
                         if (tipoPermitido == null) {
                             System.out.println("Primero gira la ruleta");
                             return;
                         }
 
+
                         if (tablero[i][j].getTipo() != tipoPermitido) {
                             System.out.println("Debes mover: " + tipoPermitido);
                             return;
                         }
+
+
+
 
                         piezaSeleccionada = tablero[i][j];
                         filaSeleccionada = i;
                         columnaSeleccionada = j;
                         actualizarBotonHabilidadEspecial();
                         marcarCasillasDeMovimiento();
+
+
+
 
                         System.out.println("Pieza seleccionada");
                         System.out.println("Tipo: " + piezaSeleccionada.getTipo());
@@ -828,7 +857,7 @@ public class Tablero extends JPanel implements ActionListener {
                         return;
                     }
 
-                    // Ya hay una pieza seleccionada
+                    // Ya hay pieza seleccionada
 
                     if (tablero[i][j] != null &&
                             tablero[i][j].getDuenio() == piezaSeleccionada.getDuenio()) {
@@ -837,6 +866,8 @@ public class Tablero extends JPanel implements ActionListener {
                             System.out.println("Debes mover: " + tipoPermitido);
                             return;
                         }
+
+
 
                         quitarMarcasDeMovimiento();
 
@@ -849,6 +880,7 @@ public class Tablero extends JPanel implements ActionListener {
                         System.out.println("Cambiaste de pieza seleccionada");
                         return;
                     }
+
 
 
 

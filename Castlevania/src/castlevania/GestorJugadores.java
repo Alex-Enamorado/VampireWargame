@@ -14,15 +14,18 @@ public class GestorJugadores implements IGestorJugadores {
             return false;
         }
 
+
         if (cantidad >= jugadores.length) {
             System.out.println("Ya no hay espacio para más jugadores");
             return false;
         }
 
+
         jugadores[cantidad] = nuevoJugador;
         cantidad++;
         return true;
     }
+
 
     @Override
     public Jugador validarLogin(String usuario, String contrasenia) {
@@ -35,11 +38,13 @@ public class GestorJugadores implements IGestorJugadores {
         return null;
     }
 
+
     //Punto de entrada de la búsqueda
     @Override
     public Jugador buscarPorUsuario(String usuario) {
         return buscarPorUsuarioRecursivo(usuario, 0);
     }
+
 
     //funcion para buscar usuario via recursividad
     private Jugador buscarPorUsuarioRecursivo(String usuario, int indice) {
@@ -55,15 +60,18 @@ public class GestorJugadores implements IGestorJugadores {
         return buscarPorUsuarioRecursivo(usuario, indice + 1);
     }
 
+
     @Override
     public Jugador[] getJugadores() {
         return jugadores;
     }
 
+
     @Override
     public int getCantidad() {
         return cantidad;
     }
+
 
     //Ordena a los jugadores por la cantidad de puntos
     public Jugador[] ordenarPorPuntos() {
@@ -77,7 +85,8 @@ public class GestorJugadores implements IGestorJugadores {
         return copia;
     }
 
-    //Metodo recursivo para ordenar lpor directamente los oubntos disponibles
+
+    //Metodo recursivo para ordenar por los pubntos disponibles
     private void ordenarPorPuntosRecursivo(Jugador[] arreglo, int inicio) {
 
         if (inicio >= arreglo.length - 1) {

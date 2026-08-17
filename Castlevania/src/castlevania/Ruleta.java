@@ -85,6 +85,8 @@ public class Ruleta extends JPanel implements ActionListener{
     }
 
 
+
+
     // Misma regla que se usa para pintar el ícono en gris
     private boolean esGris(TipoPieza tipo, int i) {
         if (tipo == TipoPieza.hombre_lobo) {
@@ -98,6 +100,8 @@ public class Ruleta extends JPanel implements ActionListener{
         }
         return false;
     }
+
+
 
 
     public void actualizarDisponible(int lobos, int vampiros, int necromantes){
@@ -134,6 +138,7 @@ public class Ruleta extends JPanel implements ActionListener{
     }
 
 
+
     private Image imagenGris(TipoPieza tipo){
         if (tipo== TipoPieza.hombre_lobo){
             return iconLoboBW;
@@ -149,6 +154,9 @@ public class Ruleta extends JPanel implements ActionListener{
 
 
     }
+
+
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -180,10 +188,10 @@ public class Ruleta extends JPanel implements ActionListener{
 
             TipoPieza tipo = secciones[i];
 
-            // Primero mostramos la imagen normal
+            //Imagen normal
             Image img = imagenParaTipo(tipo);
 
-            // Si ya no queda esa pieza (o ya se perdió la de este lado) se pinta gris
+            //Si ya no tiene la pieza se pinta gris
             if (esGris(tipo, i)) {
                 img = imagenGris(tipo);
             }
@@ -215,6 +223,7 @@ public class Ruleta extends JPanel implements ActionListener{
 
 
 
+
     public void girar(){
 
         angulo=rn.nextInt(0,361);
@@ -223,7 +232,9 @@ public class Ruleta extends JPanel implements ActionListener{
     }
 
 
-    //Se ejecuta cada 20ms mientras gira la ruleta (evento del Timer)
+
+
+    //Se ejecuta cada 20ms
     @Override
     public void actionPerformed(ActionEvent e) {
 

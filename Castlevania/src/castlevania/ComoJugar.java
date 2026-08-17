@@ -28,11 +28,15 @@ public class ComoJugar extends JPanel implements ActionListener {
         background_image.setLayout(null);
         background_image.setIcon(background);
 
+
+
         JLabel titulo = new JLabel("Cómo Jugar");
         titulo.setHorizontalAlignment(SwingConstants.CENTER);
         titulo.setForeground(colorTitulo);
         titulo.setFont(new Font("Angel wish", Font.BOLD, 50));
         titulo.setBounds(250, 30, 1100, 60);
+
+
 
         agregarPieza(background_image, "/resources/vampiro_blanco.png",
                 "Vampiro",
@@ -69,6 +73,10 @@ public class ComoJugar extends JPanel implements ActionListener {
         this.add(background_image);
     }
 
+
+
+
+
     private void agregarPieza(JLabel contenedor, String rutaImagen, String nombre, String descripcion, int x, int y) {
         ImageIcon icono = new ImageIcon(Main.class.getResource(rutaImagen));
         Image imagenEscalada = icono.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
@@ -95,6 +103,10 @@ public class ComoJugar extends JPanel implements ActionListener {
         contenedor.add(nombreLabel);
         contenedor.add(descripcionArea);
     }
+
+
+
+
 
     @Override
     public void actionPerformed(ActionEvent e) {

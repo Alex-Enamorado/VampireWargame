@@ -7,6 +7,8 @@ public class ManejadorExcepciones {
     public void handle(Throwable error) {
         error.printStackTrace();
 
+
+
         JOptionPane.showMessageDialog(
                 null,
                 "Ocurrió un error inesperado:\n" + error.getMessage(),

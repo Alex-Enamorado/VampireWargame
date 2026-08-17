@@ -13,7 +13,7 @@ public class Victoria extends JPanel implements ActionListener {
     private final Color colorTitulo = new Color(169, 47, 67);
     private final Color colorTexto = new Color(235, 220, 210);
 
-    //Pantalla que se muestra al terminar la partida
+    //Pantalla terminar partida
     public Victoria(String mensaje) {
         this.setLayout(new BorderLayout());
 

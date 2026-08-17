@@ -14,6 +14,8 @@ public class MiCuenta extends JPanel implements ActionListener {
     private final Color colorTextoBotones = new Color(204, 0, 11);
     private final Color colorTitulo = new Color(169, 47, 67);
 
+
+
     public MiCuenta() {
         this.setLayout(new BorderLayout());
 
@@ -22,6 +24,8 @@ public class MiCuenta extends JPanel implements ActionListener {
         background_image.setLayout(null);
         background_image.setIcon(background);
 
+
+
         Jugador j = Sesion.jugadorActual;
 
         JLabel titulo = new JLabel("Mi Cuenta");
@@ -29,6 +33,9 @@ public class MiCuenta extends JPanel implements ActionListener {
         titulo.setForeground(colorTitulo);
         titulo.setFont(new Font("Angel wish", Font.BOLD, 60));
         titulo.setBounds(520, 120, 560, 90);
+
+
+
 
         //Se utiliza un poco de html para poder hacer que los datos esten en mas de una linea
         JLabel info = new JLabel(
@@ -55,6 +62,9 @@ public class MiCuenta extends JPanel implements ActionListener {
     }
 
 
+
+
+
     //Configuracion del boton
     private void configurarBoton(JButton boton, String texto, int x, int y) {
         boton.setText(texto);
@@ -66,6 +76,9 @@ public class MiCuenta extends JPanel implements ActionListener {
         boton.setBorderPainted(false);
         boton.addActionListener(this);
     }
+
+
+
 
     @Override
     public void actionPerformed(ActionEvent e) {

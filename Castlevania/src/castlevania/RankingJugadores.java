@@ -55,6 +55,9 @@ public class RankingJugadores extends JPanel implements ActionListener {
         this.add(abajo, BorderLayout.SOUTH);
     }
 
+
+
+
     private String construirTexto() {
         Jugador[] ordenados = Sesion.gestorJugadores.ordenarPorPuntos();
 

@@ -43,6 +43,8 @@ public class MainMenu extends JPanel implements ActionListener {
             }
         }
 
+
+
         //BACKGROUNS 
         ImageIcon background = new ImageIcon(Main.class.getResource("/resources/mainmenu_background1.png"));
         JLabel background_image = new JLabel();
@@ -50,14 +52,14 @@ public class MainMenu extends JPanel implements ActionListener {
         background_image.setLayout(null); 
         background_image.setIcon(background); 
 
-        //titulo.getAlignmentX();
+       //Titulo
         JLabel titulo = new JLabel();
         titulo.setText("Vampire Wargame");
         titulo.setForeground(new Color(169, 47, 67));
         titulo.setFont(new Font("Angel wish", Font.BOLD, 98));
         titulo.setBounds(50, 200, 1000, 100);
 
-        //Boton
+        //Boton iniciar sesion
         Ini_sesion.setContentAreaFilled(false);
         Ini_sesion.setText("Iniciar Sesion");
         Ini_sesion.setForeground(new Color(204, 0, 11));
@@ -68,7 +70,7 @@ public class MainMenu extends JPanel implements ActionListener {
         Ini_sesion.setBorderPainted(false);
         Ini_sesion.addActionListener(this);
 
-        //Boton
+        //Boton crear
         Crear_j.setContentAreaFilled(false);
         Crear_j.setText("Crear Jugador");
         Crear_j.setForeground(new Color(204, 0, 11));
@@ -79,13 +81,15 @@ public class MainMenu extends JPanel implements ActionListener {
         Crear_j.setBorderPainted(false);
         Crear_j.addActionListener(this);
 
-        //Boton
+        //Boton salir
         salir.setContentAreaFilled(false);
         salir.setText("Salir");
         salir.setForeground(new Color(204, 0, 11));
         salir.setFont(new Font("Angel wish", Font.BOLD, 38));
         salir.setBounds(-10, 550, 300, 80);
         salir.setFocusable(false);
+
+
 
         salir.setBorderPainted(false);
         salir.addActionListener(this);
@@ -97,6 +101,9 @@ public class MainMenu extends JPanel implements ActionListener {
 
         this.add(background_image);
     }
+
+
+
 
     @Override
     public void actionPerformed(ActionEvent e) {

@@ -17,6 +17,8 @@ public final class RegistroPartida {
         this.fecha = new Date();
     }
 
+
+
     public String getJugador1() {
         return jugador1;
     }

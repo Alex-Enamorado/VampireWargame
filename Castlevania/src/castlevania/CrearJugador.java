@@ -26,6 +26,8 @@ public class CrearJugador extends JPanel implements ActionListener {
     public CrearJugador() {
         this.setLayout(new BorderLayout());
 
+
+
         ImageIcon background = new ImageIcon(Main.class.getResource("/resources/mainmenu_background1.png"));
         JLabel background_image = new JLabel();
         background_image.setLayout(null);
@@ -35,6 +37,8 @@ public class CrearJugador extends JPanel implements ActionListener {
         campoContrasenia.setEchoChar(echoCharOculto);
 
 
+
+
         //Crea titulo de crear jugador
         JLabel titulo = new JLabel("Crear Jugador");
         titulo.setHorizontalAlignment(SwingConstants.CENTER);
@@ -42,26 +46,36 @@ public class CrearJugador extends JPanel implements ActionListener {
         titulo.setFont(new Font("Angel wish", Font.BOLD, 60));
         titulo.setBounds(520, 150, 560, 90);
 
+
+
         //Crear label de usuario
         JLabel labelUsuario = new JLabel("Usuario:");
         labelUsuario.setForeground(colorTextoBotones);
         labelUsuario.setFont(new Font("Angel wish", Font.BOLD, 28));
         labelUsuario.setBounds(520, 280, 150, 40);
+
+
         //Crea label de contrasseña
         JLabel labelContrasenia = new JLabel("Contraseña (5):");
         labelContrasenia.setForeground(colorTextoBotones);
         labelContrasenia.setFont(new Font("Angel wish", Font.BOLD, 24));
         labelContrasenia.setBounds(520, 350, 200, 40);
 
+
+
         //Da espacio para escribir el usuario
         campoUsuario.setBounds(680, 280, 360, 35);
         campoUsuario.setFont(new Font("Practical", Font.PLAIN, 9));
         estilizarCampo(campoUsuario);
 
+
+
         //Crea el espacio para escribir la constraseña
         campoContrasenia.setBounds(730, 350, 230, 35);
         campoContrasenia.setFont(new Font("Practical", Font.PLAIN, 9));
         estilizarCampo(campoContrasenia);
+
+
 
 
         //Customoizacion de boton de contraseña
@@ -74,6 +88,8 @@ public class CrearJugador extends JPanel implements ActionListener {
         botonMostrarContrasenia.setBorder(BorderFactory.createLineBorder(colorCampoBorde, 1));
         botonMostrarContrasenia.addActionListener(this);
 
+
+
         //Customiazacion boton de crear
         botonCrear.setContentAreaFilled(false);
         botonCrear.setText("Crear");
@@ -83,6 +99,9 @@ public class CrearJugador extends JPanel implements ActionListener {
         botonCrear.setFocusable(false);
         botonCrear.setBorderPainted(false);
         botonCrear.addActionListener(this);
+
+
+
         //Customaizacion boton de volver
         botonVolver.setContentAreaFilled(false);
         botonVolver.setText("Volver");
@@ -92,7 +111,10 @@ public class CrearJugador extends JPanel implements ActionListener {
         botonVolver.setFocusable(false);
         botonVolver.setBorderPainted(false);
         botonVolver.addActionListener(this);
+
+
         //panel en si
+
         background_image.add(titulo);
         background_image.add(labelUsuario);
         background_image.add(campoUsuario);
@@ -104,6 +126,11 @@ public class CrearJugador extends JPanel implements ActionListener {
 
         this.add(background_image);
     }
+
+
+
+
+
     //Esto permite darle customizacion a  los campos de texto
     private void estilizarCampo(JTextField campo) {
         campo.setBackground(colorCampoFondo);
@@ -115,6 +142,9 @@ public class CrearJugador extends JPanel implements ActionListener {
                 BorderFactory.createEmptyBorder(4, 8, 4, 8)
         ));
     }
+
+
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -133,6 +163,9 @@ public class CrearJugador extends JPanel implements ActionListener {
             }
             return;
         }
+
+
+
         //regresa al menu principal
         if (e.getSource() == botonVolver) {
             frame.setContentPane(new MainMenu());

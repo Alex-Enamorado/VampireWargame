@@ -19,10 +19,14 @@ public class MenuPrincipal extends JPanel implements ActionListener {
     public MenuPrincipal() {
         this.setLayout(new BorderLayout());
 
+
+
         ImageIcon background = new ImageIcon(Main.class.getResource("/resources/mainmenu_background1.png"));
         JLabel background_image = new JLabel();
         background_image.setLayout(null);
         background_image.setIcon(background);
+
+
 
         String nombre = (Sesion.jugadorActual != null) ? Sesion.jugadorActual.getUsuario() : "";
 
@@ -32,11 +36,15 @@ public class MenuPrincipal extends JPanel implements ActionListener {
         titulo.setFont(new Font("Angel wish", Font.BOLD, 48));
         titulo.setBounds(520, 100, 560, 80);
 
+
+
         configurarBoton(jugar, "Jugar Vampire Wargame", 600, 230);
         configurarBoton(miCuenta, "Mi Cuenta", 600, 320);
         configurarBoton(ranking, "Ranking de Jugadores", 600, 410);
         configurarBoton(historial, "Mi Historial de Juegos", 600, 500);
         configurarBoton(cerrarSesion, "Cerrar Sesión", 600, 590);
+
+
 
         background_image.add(titulo);
         background_image.add(jugar);
@@ -47,6 +55,8 @@ public class MenuPrincipal extends JPanel implements ActionListener {
 
         this.add(background_image);
     }
+
+
 
     private void configurarBoton(JButton boton, String texto, int x, int y) {
         boton.setText(texto);
@@ -59,14 +69,19 @@ public class MenuPrincipal extends JPanel implements ActionListener {
         boton.addActionListener(this);
     }
 
+
+
+
     @Override
     public void actionPerformed(ActionEvent e) {
         JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+
 
         if (e.getSource() == jugar) {
             iniciarNuevaPartida(frame);
             return;
         }
+
 
         if (e.getSource() == miCuenta) {
             frame.setContentPane(new MiCuenta());
@@ -75,12 +90,14 @@ public class MenuPrincipal extends JPanel implements ActionListener {
             return;
         }
 
+
         if (e.getSource() == ranking) {
             frame.setContentPane(new RankingJugadores());
             frame.revalidate();
             frame.repaint();
             return;
         }
+
 
         if (e.getSource() == historial) {
             frame.setContentPane(new HistorialJuegos());
@@ -89,6 +106,7 @@ public class MenuPrincipal extends JPanel implements ActionListener {
             return;
         }
 
+
         if (e.getSource() == cerrarSesion) {
             Sesion.cerrarSesion();
             frame.setContentPane(new MainMenu());
@@ -96,6 +114,9 @@ public class MenuPrincipal extends JPanel implements ActionListener {
             frame.repaint();
         }
     }
+
+
+
 
     private void iniciarNuevaPartida(JFrame frame) {
 
@@ -114,6 +135,9 @@ public class MenuPrincipal extends JPanel implements ActionListener {
             }
         }
 
+
+
+
         if (total == 0) {
             JOptionPane.showMessageDialog(this,
                     "No hay otro jugador registrado para jugar en contra.",
@@ -126,6 +150,8 @@ public class MenuPrincipal extends JPanel implements ActionListener {
             listaFinal[i] = oponentes[i];
         }
 
+
+
         String oponenteElegido = (String) JOptionPane.showInputDialog(
                 this,
                 "Elige tu oponente:",
@@ -135,6 +161,8 @@ public class MenuPrincipal extends JPanel implements ActionListener {
                 listaFinal,
                 listaFinal[0]
         );
+
+
 
         if (oponenteElegido == null) {
             return; //el jugador canceló

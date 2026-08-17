@@ -31,6 +31,9 @@ public class BotonPieza extends JButton {
     }
 
 
+
+
+
     //Aqui cargamos la font de los stats
     private static Font cargarFontPixel() {
         try {
@@ -47,7 +50,9 @@ public class BotonPieza extends JButton {
     private Integer vida = null;
     private Integer ataque = null;
 
-    //Guarda la imagen de la pieza y sus 3 numeros para dibujarlos en el proximo
+
+
+    //Guarda la imagen de la pieza y los numeros
     public void mostrarPieza(Image imagenPieza, int escudo, int vida, int ataque) {
         this.imagenPieza = imagenPieza;
         this.escudo = escudo;
@@ -56,6 +61,8 @@ public class BotonPieza extends JButton {
         repaint();
     }
 
+
+
     public void ocultarStats() {
         this.imagenPieza = null;
         this.escudo = null;
@@ -63,6 +70,9 @@ public class BotonPieza extends JButton {
         this.ataque = null;
         repaint();
     }
+
+
+
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -95,6 +105,12 @@ public class BotonPieza extends JButton {
 
         g2.dispose();
     }
+
+
+
+
+
+
     //Pinta los stats en la pantalla
     private void dibujarStat(Graphics2D g2, Image icono, String texto, int x, int y, Color colorTexto) {
         if (icono != null) {

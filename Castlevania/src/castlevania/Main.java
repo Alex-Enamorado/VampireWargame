@@ -24,6 +24,8 @@ public class Main {
         } catch (Exception e) {
         }
 
+
+
         try {
             MyFrame ventana = new MyFrame();
             MainMenu mainmenu = new MainMenu();

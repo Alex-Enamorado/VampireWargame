@@ -10,6 +10,8 @@ public class Zombie extends Pieza{
 
     }
 
+
+
     @Override
     public boolean puedeMover(int filaDestino, int columnaDestino) {
         return false;

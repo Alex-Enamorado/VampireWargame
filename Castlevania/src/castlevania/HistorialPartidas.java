@@ -17,6 +17,7 @@ public class HistorialPartidas implements IHistorialPartidas {
         }
     }
 
+
     @Override
     public RegistroPartida[] getRegistros() {
         return registros;
