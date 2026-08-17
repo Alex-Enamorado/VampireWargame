@@ -396,7 +396,7 @@ public class Tablero extends JPanel implements ActionListener {
         girar.setEnabled(true);
         actualizarRuletaDisponibilidad();
         System.out.println("Turno de jugador: " + jugadorActual);
-        registrarLog("--- Turno de " + nombreDeJugador(jugadorActual) + " ---");
+        registrarLog("- Turno de " + nombreDeJugador(jugadorActual) + " -");
 
         if (jugadorActual == 1) {
             indicadorJugador.setText("Turno de " + nombreJugador1);
