@@ -99,9 +99,9 @@ public class BotonPieza extends JButton {
             g2.setFont(FONT_PIXEL);
         }
 
-        dibujarStat(g2, ICONO_ESCUDO, String.valueOf(escudo), xStats, yInicial, Color.BLUE);
-        dibujarStat(g2, ICONO_VIDA, String.valueOf(vida), xStats, yInicial + ALTO_FILA_STAT, Color.RED);
-        dibujarStat(g2, ICONO_ATAQUE, String.valueOf(ataque), xStats, yInicial + (ALTO_FILA_STAT * 2), Color.GRAY);
+        dibujarStat(g2, ICONO_ESCUDO, String.valueOf(escudo), xStats, yInicial, new Color(140, 140, 135));
+        dibujarStat(g2, ICONO_VIDA, String.valueOf(vida), xStats, yInicial + ALTO_FILA_STAT, new Color(204, 0, 11));
+        dibujarStat(g2, ICONO_ATAQUE, String.valueOf(ataque), xStats, yInicial + (ALTO_FILA_STAT * 2), new Color(230, 230, 220));
 
         g2.dispose();
     }
