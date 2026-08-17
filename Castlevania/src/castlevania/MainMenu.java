@@ -25,17 +25,22 @@ public class MainMenu extends JPanel implements ActionListener {
     private JButton Crear_j = new JButton();
     private JButton salir = new JButton();
 
+    //La musica es static para que no se vuelva a poner encima cada vez que se abre el MainMenu de nuevo
+    private static Clip clip;
+
     public MainMenu() {
         this.setLayout(new BorderLayout());
 
         // Musica
-        try {
-            Clip clip = AudioSystem.getClip();
-            clip.open(AudioSystem.getAudioInputStream(Main.class.getResource("/resources/ost.wav")));
-            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            gainControl.setValue(-20.0f);
-            clip.loop(Clip.LOOP_CONTINUOUSLY);
-        } catch (IOException | LineUnavailableException | UnsupportedAudioFileException e) {
+        if (clip == null) {
+            try {
+                clip = AudioSystem.getClip();
+                clip.open(AudioSystem.getAudioInputStream(Main.class.getResource("/resources/ost.wav")));
+                FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                gainControl.setValue(-20.0f);
+                clip.loop(Clip.LOOP_CONTINUOUSLY);
+            } catch (IOException | LineUnavailableException | UnsupportedAudioFileException e) {
+            }
         }
 
         //BACKGROUNS 

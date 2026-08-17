@@ -20,7 +20,7 @@ public class HombreLobo extends Pieza{
             return false;
         }
 
-        //Solo en linea recta: horizontal, vertical o diagonal
+        //Solo en linea recta
         boolean esLineaRecta = Dfila == 0 || Dcolumna == 0 || Dfila == Dcolumna;
 
         return esLineaRecta && Dfila <= 2 && Dcolumna <= 2;

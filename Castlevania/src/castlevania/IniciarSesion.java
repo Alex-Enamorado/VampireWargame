@@ -13,11 +13,11 @@ public class IniciarSesion extends JPanel implements ActionListener {
     private JButton botonVolver = new JButton();
     private JButton botonMostrarContrasenia = new JButton();
 
-    // Guardamos el caracter original de "oculto" para poder mostrarlo
+    //Guardamos el caracter original para poder mostrarlo
     private final char echoCharOculto;
     private boolean contraseniaVisible = false;
 
-    // Colores
+    //Colores
     private final Color colorTextoBotones = new Color(204, 0, 11);
     private final Color colorTitulo = new Color(169, 47, 67);
     private final Color colorCampoFondo = new Color(30, 18, 20);      // fondo oscuro tipo "pergamino gótico"
@@ -33,60 +33,54 @@ public class IniciarSesion extends JPanel implements ActionListener {
         background_image.setLayout(null);
         background_image.setIcon(background);
 
-//       Centrado en una caja
-        int boxWidth = 560;
-        int boxX = (1600 - boxWidth) / 2;
+        //Guardamos el echoChar
+        echoCharOculto = '*';
+        campoContrasenia.setEchoChar(echoCharOculto);
 
-        // Guardamos el echoChar por defecto (el que usa Swing para ocultar la contraseña)
-        echoCharOculto = campoContrasenia.getEchoChar();
-
-        // Titulo
+        //titulo
         JLabel titulo = new JLabel("Iniciar Sesión");
         titulo.setHorizontalAlignment(SwingConstants.CENTER);
         titulo.setForeground(colorTitulo);
         titulo.setFont(new Font("Angel wish", Font.BOLD, 70));
-        titulo.setBounds(boxX, 150, boxWidth, 90);
+        titulo.setBounds(520, 150, 560, 90);
 
-        // Etiquetas
+        //etiquetas
         JLabel labelUsuario = new JLabel("Usuario:");
         labelUsuario.setForeground(colorTextoBotones);
         labelUsuario.setFont(new Font("Angel wish", Font.BOLD, 28));
-        labelUsuario.setBounds(boxX, 280, 150, 40);
+        labelUsuario.setBounds(520, 280, 150, 40);
 
         JLabel labelContrasenia = new JLabel("Contraseña:");
         labelContrasenia.setForeground(colorTextoBotones);
         labelContrasenia.setFont(new Font("Angel wish", Font.BOLD, 28));
-        labelContrasenia.setBounds(boxX, 350, 150, 40);
+        labelContrasenia.setBounds(520, 350, 150, 40);
 
         // Campos
-        campoUsuario.setBounds(boxX + 160, 280, 360, 35);
-        campoUsuario.setFont(new Font("Blackletter Shadow", Font.PLAIN, 18));
+        campoUsuario.setBounds(680, 280, 360, 35);
+        campoUsuario.setFont(new Font("Practical", Font.PLAIN, 9));
         estilizarCampo(campoUsuario);
 
-        campoContrasenia.setBounds(boxX + 160, 350, 280, 35);
-        campoContrasenia.setFont(new Font("Blackletter Shadow", Font.PLAIN, 18));
+        campoContrasenia.setBounds(680, 350, 280, 35);
+        campoContrasenia.setFont(new Font("Practical", Font.PLAIN, 9));
         estilizarCampo(campoContrasenia);
 
         // Boton para mostrar/ocultar la contraseña
         botonMostrarContrasenia.setText("Ver");
         botonMostrarContrasenia.setContentAreaFilled(false);
         botonMostrarContrasenia.setForeground(colorTextoBotones);
-        botonMostrarContrasenia.setFont(new Font("Blackletter Shadow", Font.BOLD, 14));
-        botonMostrarContrasenia.setBounds(boxX + 450, 350, 90, 35);
+        botonMostrarContrasenia.setFont(new Font("Practical", Font.BOLD, 7));
+        botonMostrarContrasenia.setBounds(970, 350, 90, 35);
         botonMostrarContrasenia.setFocusable(false);
         botonMostrarContrasenia.setBorderPainted(true);
         botonMostrarContrasenia.setBorder(BorderFactory.createLineBorder(colorCampoBorde, 1));
         botonMostrarContrasenia.addActionListener(this);
 
         // Botones
-        int botonAncho = 300;
-        int botonX = boxX + (boxWidth - botonAncho) / 2;
-
         botonEntrar.setContentAreaFilled(false);
         botonEntrar.setText("Entrar");
         botonEntrar.setForeground(colorTextoBotones);
         botonEntrar.setFont(new Font("Angel wish", Font.BOLD, 38));
-        botonEntrar.setBounds(botonX, 430, botonAncho, 80);
+        botonEntrar.setBounds(650, 430, 300, 80);
         botonEntrar.setFocusable(false);
         botonEntrar.setBorderPainted(false);
         botonEntrar.addActionListener(this);
@@ -95,7 +89,7 @@ public class IniciarSesion extends JPanel implements ActionListener {
         botonVolver.setText("Volver");
         botonVolver.setForeground(colorTextoBotones);
         botonVolver.setFont(new Font("Angel wish", Font.BOLD, 38));
-        botonVolver.setBounds(botonX, 520, botonAncho, 80);
+        botonVolver.setBounds(650, 520, 300, 80);
         botonVolver.setFocusable(false);
         botonVolver.setBorderPainted(false);
         botonVolver.addActionListener(this);

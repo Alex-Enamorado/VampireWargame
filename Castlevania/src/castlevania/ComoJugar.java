@@ -16,7 +16,7 @@ public class ComoJugar extends JPanel implements ActionListener {
     private final String jugador;
     private final String oponente;
 
-    //Pantalla de como jugar, se muestra antes de entrar al tablero
+    //Pantalla de como jugar se enseña antes de jugar
     public ComoJugar(String jugador, String oponente) {
         this.jugador = jugador;
         this.oponente = oponente;
@@ -28,46 +28,37 @@ public class ComoJugar extends JPanel implements ActionListener {
         background_image.setLayout(null);
         background_image.setIcon(background);
 
-        int boxWidth = 1100;
-        int boxX = (1600 - boxWidth) / 2;
-
         JLabel titulo = new JLabel("Cómo Jugar");
         titulo.setHorizontalAlignment(SwingConstants.CENTER);
         titulo.setForeground(colorTitulo);
         titulo.setFont(new Font("Angel wish", Font.BOLD, 50));
-        titulo.setBounds(boxX, 30, boxWidth, 60);
+        titulo.setBounds(250, 30, 1100, 60);
 
-        int filaY = 110;
         agregarPieza(background_image, "/resources/vampiro_blanco.png",
                 "Vampiro",
                 "Escudo 5, Vida 4, Ataque 3. Se mueve una casilla en cualquier dirección. Puede absorber sangre: al atacar drena 1 de vida al enemigo y se cura 1 de vida.",
-                boxX, filaY);
+                250, 100);
 
-        filaY += 140;
         agregarPieza(background_image, "/resources/lobo_blanco.png",
                 "Hombre Lobo",
                 "Escudo 2, Vida 5, Ataque 5. Se mueve en línea recta (horizontal, vertical o diagonal) hasta 2 casillas, sin poder saltar piezas en el camino.",
-                boxX, filaY);
+                250, 250);
 
-        filaY += 140;
         agregarPieza(background_image, "/resources/necromante_blanco.png",
                 "Necrómante",
                 "Escudo 1, Vida 3, Ataque 4. Se mueve una casilla en cualquier dirección. Puede lanzar un ataque a distancia de hasta 2 casillas que ignora el escudo, invocar un zombie en cualquier parte del tablero (útil como distracción u obstáculo) y ordenar ataques a través de sus zombies.",
-                boxX, filaY);
+                250, 400);
 
-        filaY += 140;
         agregarPieza(background_image, "/resources/zombie_blanco.png",
                 "Zombie",
                 "Escudo 0, Vida 1, Ataque 1. No puede moverse por sí mismo. Solo aparece invocado por un Necrómante. Sirve como obstáculo o para sus ataques a distancia.",
-                boxX, filaY);
+                250, 550);
 
-        int botonAncho = 220;
-        int botonAlto = 60;
         botonContinuar.setText("Continuar");
         botonContinuar.setContentAreaFilled(false);
         botonContinuar.setForeground(colorTextoBotones);
         botonContinuar.setFont(new Font("Angel wish", Font.BOLD, 30));
-        botonContinuar.setBounds(boxX + boxWidth - botonAncho, filaY + 100, botonAncho, botonAlto);
+        botonContinuar.setBounds(1130, 705, 220, 60);
         botonContinuar.setFocusable(false);
         botonContinuar.setBorderPainted(false);
         botonContinuar.addActionListener(this);
@@ -92,13 +83,13 @@ public class ComoJugar extends JPanel implements ActionListener {
 
         JTextArea descripcionArea = new JTextArea(descripcion);
         descripcionArea.setForeground(colorTexto);
-        descripcionArea.setFont(new Font("Blackletter Shadow", Font.PLAIN, 16));
+        descripcionArea.setFont(new Font("Practical", Font.PLAIN, 7));
         descripcionArea.setLineWrap(true);
         descripcionArea.setWrapStyleWord(true);
         descripcionArea.setOpaque(false);
         descripcionArea.setEditable(false);
         descripcionArea.setFocusable(false);
-        descripcionArea.setBounds(x + 120, y + 40, 960, 90);
+        descripcionArea.setBounds(x + 120, y + 40, 970, 110);
 
         contenedor.add(imagen);
         contenedor.add(nombreLabel);

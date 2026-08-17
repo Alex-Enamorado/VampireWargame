@@ -24,31 +24,19 @@ public class MenuPrincipal extends JPanel implements ActionListener {
         background_image.setLayout(null);
         background_image.setIcon(background);
 
-        int boxWidth = 560;
-        int boxX = (1600 - boxWidth) / 2;
-
         String nombre = (Sesion.jugadorActual != null) ? Sesion.jugadorActual.getUsuario() : "";
 
         JLabel titulo = new JLabel("Bienvenido, " + nombre);
         titulo.setHorizontalAlignment(SwingConstants.CENTER);
         titulo.setForeground(colorTitulo);
         titulo.setFont(new Font("Angel wish", Font.BOLD, 48));
-        titulo.setBounds(boxX, 100, boxWidth, 80);
+        titulo.setBounds(520, 100, 560, 80);
 
-        int botonAncho = 400;
-        int botonX = boxX + (boxWidth - botonAncho) / 2;
-        int y = 230;
-        int paso = 90;
-
-        configurarBoton(jugar, "Jugar Vampire Wargame", botonX, y);
-        y += paso;
-        configurarBoton(miCuenta, "Mi Cuenta", botonX, y);
-        y += paso;
-        configurarBoton(ranking, "Ranking de Jugadores", botonX, y);
-        y += paso;
-        configurarBoton(historial, "Mi Historial de Juegos", botonX, y);
-        y += paso;
-        configurarBoton(cerrarSesion, "Cerrar Sesión", botonX, y);
+        configurarBoton(jugar, "Jugar Vampire Wargame", 600, 230);
+        configurarBoton(miCuenta, "Mi Cuenta", 600, 320);
+        configurarBoton(ranking, "Ranking de Jugadores", 600, 410);
+        configurarBoton(historial, "Mi Historial de Juegos", 600, 500);
+        configurarBoton(cerrarSesion, "Cerrar Sesión", 600, 590);
 
         background_image.add(titulo);
         background_image.add(jugar);

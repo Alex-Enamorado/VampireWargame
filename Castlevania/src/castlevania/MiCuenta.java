@@ -22,16 +22,13 @@ public class MiCuenta extends JPanel implements ActionListener {
         background_image.setLayout(null);
         background_image.setIcon(background);
 
-        int boxWidth = 560;
-        int boxX = (1600 - boxWidth) / 2;
-
         Jugador j = Sesion.jugadorActual;
 
         JLabel titulo = new JLabel("Mi Cuenta");
         titulo.setHorizontalAlignment(SwingConstants.CENTER);
         titulo.setForeground(colorTitulo);
         titulo.setFont(new Font("Angel wish", Font.BOLD, 60));
-        titulo.setBounds(boxX, 120, boxWidth, 90);
+        titulo.setBounds(520, 120, 560, 90);
 
         //Se utiliza un poco de html para poder hacer que los datos esten en mas de una linea
         JLabel info = new JLabel(
@@ -41,15 +38,12 @@ public class MiCuenta extends JPanel implements ActionListener {
         );
         info.setHorizontalAlignment(SwingConstants.CENTER);
         info.setForeground(Color.WHITE);
-        info.setFont(new Font("Blackletter Shadow", Font.PLAIN, 20));
-        info.setBounds(boxX, 230, boxWidth, 100);
+        info.setFont(new Font("Practical", Font.PLAIN, 10));
+        info.setBounds(520, 230, 560, 100);
 
-        int botonAncho = 300;
-        int botonX = boxX + (boxWidth - botonAncho) / 2;
-
-        configurarBoton(cambiarContrasenia, "Cambiar Contraseña", botonX, 360);
-        configurarBoton(cerrarCuenta, "Cerrar Cuenta", botonX, 450);
-        configurarBoton(volver, "Volver", botonX, 540);
+        configurarBoton(cambiarContrasenia, "Cambiar Contraseña", 650, 360);
+        configurarBoton(cerrarCuenta, "Cerrar Cuenta", 650, 450);
+        configurarBoton(volver, "Volver", 650, 540);
 
         background_image.add(titulo);
         background_image.add(info);

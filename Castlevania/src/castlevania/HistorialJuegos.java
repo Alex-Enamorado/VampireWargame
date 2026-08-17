@@ -19,11 +19,11 @@ public class HistorialJuegos extends JPanel implements ActionListener {
         titulo.setForeground(new Color(169, 47, 67));
         titulo.setFont(new Font("Angel wish", Font.BOLD, 48));
         titulo.setBorder(BorderFactory.createEmptyBorder(30, 0, 20, 0));
-        //Area donde se hara display el historial
+        //Area display el historial
         texto.setEditable(false);
         texto.setLineWrap(true);
         texto.setWrapStyleWord(true);
-        texto.setFont(new Font("Blackletter Shadow", Font.PLAIN, 20));
+        texto.setFont(new Font("Practical", Font.PLAIN, 10));
         texto.setBackground(new Color(29, 29, 28));
         texto.setForeground(Color.WHITE);
         texto.setText(construirTexto());
@@ -66,7 +66,7 @@ public class HistorialJuegos extends JPanel implements ActionListener {
         RegistroPartida[] registros = Sesion.historialPartidas.getRegistros();
         int cantidad = Sesion.historialPartidas.getCantidad();
 
-        //Recorremos del más reciente al más antiguo (por eso empezamos desde el final)
+        //Se recorre del mas reciente al mas antiguo
         boolean hayAlguno = false;
 
         for (int i = cantidad - 1; i >= 0; i--) {

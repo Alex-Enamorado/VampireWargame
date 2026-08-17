@@ -26,7 +26,6 @@ public class BotonPieza extends JButton {
         try {
             return new ImageIcon(Main.class.getResource(ruta)).getImage();
         } catch (Exception e) {
-            System.out.println("No se pudo cargar el ícono: " + ruta);
             return null; //si todavía no existe el archivo no lo carga
         }
     }
@@ -37,10 +36,9 @@ public class BotonPieza extends JButton {
         try {
             InputStream in = Main.class.getResourceAsStream("/resources/fonts/pixel.ttf");
             Font base = Font.createFont(Font.TRUETYPE_FONT, in);
-            return base.deriveFont(Font.PLAIN, 11f);
+            return base.deriveFont(Font.PLAIN, 5.5f);
         } catch (Exception e) {
-            System.out.println("No se pudo cargar la fuente pixel, se usa una normal mientras tanto");
-            return new Font("Monospaced", Font.PLAIN, 11);
+            return null; //si falla se deja la font por defecto
         }
     }
 
@@ -49,7 +47,7 @@ public class BotonPieza extends JButton {
     private Integer vida = null;
     private Integer ataque = null;
 
-    //Guarda la imagen de la pieza y sus 3 numeros para dibujarlos en el proximo repaint
+    //Guarda la imagen de la pieza y sus 3 numeros para dibujarlos en el proximo
     public void mostrarPieza(Image imagenPieza, int escudo, int vida, int ataque) {
         this.imagenPieza = imagenPieza;
         this.escudo = escudo;
@@ -79,7 +77,7 @@ public class BotonPieza extends JButton {
         int ancho = getWidth();
         int alto = getHeight();
 
-        //La pieza ocupa casi toda la casilla
+        //La pieza es la mayoria de la casilla
         int margen = 4;
         g2.drawImage(imagenPieza, margen, margen, ancho - (margen * 2), alto - (margen * 2), this);
 
@@ -87,7 +85,9 @@ public class BotonPieza extends JButton {
         int xStats = ancho - 36;
         int yInicial = 4;
 
-        g2.setFont(FONT_PIXEL);
+        if (FONT_PIXEL != null) {
+            g2.setFont(FONT_PIXEL);
+        }
 
         dibujarStat(g2, ICONO_ESCUDO, String.valueOf(escudo), xStats, yInicial, Color.BLUE);
         dibujarStat(g2, ICONO_VIDA, String.valueOf(vida), xStats, yInicial + ALTO_FILA_STAT, Color.RED);
@@ -95,7 +95,7 @@ public class BotonPieza extends JButton {
 
         g2.dispose();
     }
-
+    //Pinta los stats en la pantalla
     private void dibujarStat(Graphics2D g2, Image icono, String texto, int x, int y, Color colorTexto) {
         if (icono != null) {
             g2.drawImage(icono, x, y, TAMANO_ICONO_STAT, TAMANO_ICONO_STAT, this);

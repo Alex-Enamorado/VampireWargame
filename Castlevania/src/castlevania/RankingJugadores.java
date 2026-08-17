@@ -20,7 +20,7 @@ public class RankingJugadores extends JPanel implements ActionListener {
         titulo.setBorder(BorderFactory.createEmptyBorder(30, 0, 20, 0));
 
         texto.setEditable(false);
-        texto.setFont(new Font("Blackletter Shadow", Font.PLAIN, 20));
+        texto.setFont(new Font("Practical", Font.PLAIN, 10));
         texto.setBackground(new Color(29, 29, 28));
         texto.setForeground(Color.WHITE);
         texto.setText(construirTexto());
@@ -60,7 +60,7 @@ public class RankingJugadores extends JPanel implements ActionListener {
 
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("%-6s %-25s %s\n", "Pos.", "Usuario", "Puntos"));
-        sb.append("--------------------------------------------\n");
+        sb.append("----------------------------------------------------\n");
 
         int posicion = 0;
 

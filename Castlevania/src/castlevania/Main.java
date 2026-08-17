@@ -19,6 +19,12 @@ public class Main {
         }
 
         try {
+            Font fuentePixel = Font.createFont(Font.TRUETYPE_FONT, Main.class.getResourceAsStream("/resources/fonts/pixel.ttf"));
+            GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(fuentePixel);
+        } catch (Exception e) {
+        }
+
+        try {
             MyFrame ventana = new MyFrame();
             MainMenu mainmenu = new MainMenu();
             ventana.setContentPane(mainmenu);

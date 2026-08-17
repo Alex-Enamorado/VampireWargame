@@ -174,7 +174,7 @@ public class Tablero extends JPanel implements ActionListener {
         ruleta= new Ruleta(this);
         ruleta.setBounds(25,150,300,300);
         ImageIcon selector = new ImageIcon(Main.class.getResource("/resources/selector.png"));
-//        System.out.println("Ancho selector: " + selector.getIconWidth());
+
         JLabel marcador=new JLabel(selector);
         marcador.setBounds(20,0,300,300);
         marcador.setOpaque(false);
@@ -205,21 +205,21 @@ public class Tablero extends JPanel implements ActionListener {
         logArea.setCaretPosition(logArea.getDocument().getLength());
     }
 
-    //Convierte fila/columna a una casilla tipo 1,1 empezando abajo a la izquierda (solo para el log)
+    //Convierte fila/columna a una casilla tipo 1,1 empezando abajo a la izquierda
     private String nombreCasilla(int fila, int columna) {
         int numeroFila = filas - fila;
         int numeroColumna = columna + 1;
         return numeroFila + "," + numeroColumna;
     }
 
-    //Le pone estilo al panel de texto del log y lo coloca a la derecha
+    //texto del log
     private void hacerPanelLog() {
         logArea.setEditable(false);
         logArea.setLineWrap(true);
         logArea.setWrapStyleWord(true);
         logArea.setBackground(new Color(29, 29, 28));
         logArea.setForeground(Color.WHITE);
-        logArea.setFont(new Font("Monospaced", Font.PLAIN, 20));
+        logArea.setFont(new Font("Practical", Font.PLAIN, 10));
 
         logScroll.setBounds(1220, 5, 360, 852);
         logScroll.setBorder(BorderFactory.createLineBorder(new Color(98, 24, 21), 2));
@@ -249,7 +249,7 @@ public class Tablero extends JPanel implements ActionListener {
 
     }
 
-    //Dibuja en cada casilla la imagen de la pieza que tenga (o la esconde si está vacía)
+    //Dibuja en cada casilla la imagen de la pieza que tenga
     private void mostrarPiezas(){
         for (int i=0;i<filas;i++){
             for (int j=0;j<columnas;j++){
@@ -307,7 +307,7 @@ public class Tablero extends JPanel implements ActionListener {
     }
 
 
-    //Recibe el resultado de la ruleta y decide si el jugador debe mover, girar de nuevo o perder el turno
+    //Recibe el resultado de la ruleta
     void procesarResultadoRuleta(TipoPieza resultado) {
 
         girosUsados++;
@@ -315,7 +315,7 @@ public class Tablero extends JPanel implements ActionListener {
         System.out.println("Resultado: " + resultado);
         System.out.println("Giros usados: " + girosUsados);
 
-        //Si cayó en una casilla gris, resultado viene null y cuenta como fallo
+        //Si cayó en una casilla gris cuenta como fallo
         if (resultado != null && jugadorTienePieza(jugadorActual, resultado)) {
 
             tipoPermitido = resultado;
@@ -337,20 +337,20 @@ public class Tablero extends JPanel implements ActionListener {
                             "\nDebes mover esa pieza."
             );
 
-            //Ya encontró una pieza válida, no puede volver a girar
+            //Pieza valida ya no se gira
             girar.setEnabled(false);
 
             return;
         }
 
-        //Cayó en una pieza gris (ya eliminada)
+        //Cayó en una pieza gris
         int girosPermitidos = calcularGirosPermitidos(jugadorActual);
 
         System.out.println("Cayó en GRIS.");
         System.out.println("Giros permitidos: " + girosPermitidos);
         System.out.println("Giros usados: " + girosUsados);
 
-        //Todavía tiene otro intento
+        //Todavia tiene otro intento
         if (girosUsados < girosPermitidos) {
 
             JOptionPane.showMessageDialog(
@@ -359,13 +359,13 @@ public class Tablero extends JPanel implements ActionListener {
                             "Puedes girar nuevamente."
             );
 
-            //El jugador tiene que presionar GIRAR
+            //El jugador tiene que presionar
             girar.setEnabled(true);
 
             return;
         }
 
-        //Ya no le quedan giros, pierde el turno
+        //pierde el turno
         JOptionPane.showMessageDialog(
                 this,
                 "Cayó en una pieza eliminada.\n" +
@@ -378,7 +378,7 @@ public class Tablero extends JPanel implements ActionListener {
         pasarTurno();
     }
 
-    //Revisa si el jugador "duenio" todavía tiene alguna pieza del tipo dado
+    //Revisa si el jugador todavía tiene alguna pieza del tipo
     private boolean jugadorTienePieza(int duenio, TipoPieza tipo) {
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
@@ -393,8 +393,6 @@ public class Tablero extends JPanel implements ActionListener {
     }
 
     private int calcularGirosPermitidos(int duenio) {
-        // 1 giro base + 1 giro extra por cada 2 piezas perdidas
-        // (perdidas=0 o 1 -> 1 giro; perdidas=2 o 3 -> 2 giros; perdidas=4 o 5 -> 3 giros)
         return 1 + (piezasPerdidas[duenio] / 2);
     }
 
@@ -411,7 +409,7 @@ public class Tablero extends JPanel implements ActionListener {
         girar.setEnabled(true);
         actualizarRuletaDisponibilidad();
         System.out.println("Turno de jugador: " + jugadorActual);
-        registrarLog("--- Turno de jugador " + jugadorActual + " ---");
+        registrarLog("--- Turno de " + nombreDeJugador(jugadorActual) + " ---");
 
         if (jugadorActual == 1) {
             indicadorJugador.setText("Turno de " + nombreJugador1);
@@ -422,7 +420,7 @@ public class Tablero extends JPanel implements ActionListener {
 
 
 
-    //Mueve la pieza seleccionada a la casilla vacía elegida (o invoca un Zombie si el Necrómante usó su habilidad)
+    //Mueve la pieza seleccionada a la casilla vacía elegida
     private void intentarMover(int filaDestino, int columnaDestino) {
 
         if (piezaSeleccionada.getTipo() == TipoPieza.necromante && usarHabilidadEspecial) {
@@ -436,7 +434,7 @@ public class Tablero extends JPanel implements ActionListener {
             return;
         }
 
-        //El Hombre Lobo se mueve hasta 2 casillas, pero no puede saltar sobre una pieza
+        //El Hombre Lobo se mueve hasta 2 casillas
         if (hayPiezaEnElCamino(filaDestino, columnaDestino)) {
             System.out.println("Hay una pieza en el camino");
             return;
@@ -446,7 +444,7 @@ public class Tablero extends JPanel implements ActionListener {
         tablero[filaDestino][columnaDestino] = piezaSeleccionada;
         piezaSeleccionada.setPosicion(filaDestino, columnaDestino);
 
-        registrarLog("Jugador " + jugadorActual + " movió " + piezaSeleccionada.getTipo() +
+        registrarLog(nombreDeJugador(jugadorActual) + " movió " + piezaSeleccionada.getTipo() +
                 " a " + nombreCasilla(filaDestino, columnaDestino));
 
         mostrarPiezas();
@@ -454,17 +452,17 @@ public class Tablero extends JPanel implements ActionListener {
     }
 
 
-    //Pone un Zombie nuevo en la casilla elegida por el Necrómante
+    //Pone un Zombie en la casilla que escoja el necromante
     private void invocarZombie(int fila, int columna) {
         int duenio = piezaSeleccionada.getDuenio();
         tablero[fila][columna] = new Zombie(duenio, fila, columna);
         mostrarPiezas();
-        registrarLog("Jugador " + duenio + " invocó un Zombie en " + nombreCasilla(fila, columna));
+        registrarLog(nombreDeJugador(duenio) + " invocó un Zombie en " + nombreCasilla(fila, columna));
         System.out.println("Zombie invocado en " + fila + "," + columna);
     }
 
 
-    //Decide qué tipo de ataque hacer según la distancia entre la pieza seleccionada y el objetivo
+    //Decide qué tipo de ataque hacer
     private void intentarAtacar(int filaDestino, int columnaDestino) {
         Pieza objetivo = tablero[filaDestino][columnaDestino];
 
@@ -473,38 +471,47 @@ public class Tablero extends JPanel implements ActionListener {
 
         boolean esAdyacente = Dfila <= 1 && Dcolumna <= 1;
 
-        //El Necrómante puede lanzar su lanza hasta 2 casillas, en línea recta (horizontal o vertical)
+        //El Necrómante puede lanzar su lanza hasta 2 casillas en linea recata
         boolean esLanzaNecromante = piezaSeleccionada.getTipo() == TipoPieza.necromante
                 && ((Dfila <= 2 && Dcolumna == 0) || (Dcolumna <= 2 && Dfila == 0));
+
+
 
         if (esAdyacente) {
             atacarAdyacente(objetivo, filaDestino, columnaDestino);
             return;
         }
 
+
+
         if (esLanzaNecromante) {
-            //Ataque de lanza: 2 de daño, ignora el escudo
+            //Ataque lanza 2  de daño, ignora el escudo
             objetivo.recibirDanio(2, true);
-            registrarLog("Jugador " + jugadorActual + " lanzó su lanza contra " + objetivo.getTipo());
+            registrarLog(nombreDeJugador(jugadorActual) + " lanzó su lanza contra " + objetivo.getTipo());
             aplicarResultadoAtaque(objetivo, filaDestino, columnaDestino);
             return;
         }
 
-        //Ataque a través de Zombie: el Necrómante puede ordenar el ataque sin importar
-        //la distancia, siempre que el enemigo esté pegado a un Zombie propio
+
+
+        //Ataque a través de Zombie
+
         if (piezaSeleccionada.getTipo() == TipoPieza.necromante
                 && hayZombiePropioAdyacente(jugadorActual, filaDestino, columnaDestino)) {
 
             objetivo.recibirDanio(1, false);
-            registrarLog("Jugador " + jugadorActual + " ordenó atacar a través de un Zombie contra " + objetivo.getTipo());
+            registrarLog(nombreDeJugador(jugadorActual) + " ordenó atacar a través de un Zombie contra " + objetivo.getTipo());
             aplicarResultadoAtaque(objetivo, filaDestino, columnaDestino);
             return;
         }
 
+
+
+
         System.out.println("Esa pieza no está al alcance");
     }
 
-    //Revisa si hay un Zombie del mismo dueño en alguna de las 8 casillas alrededor de (fila, columna)
+    //Revisa si hay un Zombie del mismo dueño en alguna de las 8 casillas alrededor
     private boolean hayZombiePropioAdyacente(int duenio, int fila, int columna) {
 
         for (int i = fila - 1; i <= fila + 1; i++) {
@@ -528,24 +535,24 @@ public class Tablero extends JPanel implements ActionListener {
         return false;
     }
 
-    //Ataque contra una pieza adyacente: normal o especial (según el tipo de pieza atacante)
+    //Ataque contra pieza
     private void atacarAdyacente(Pieza objetivo, int filaDestino, int columnaDestino) {
 
         if (piezaSeleccionada.getTipo() == TipoPieza.vampiro && usarHabilidadEspecial) {
             objetivo.recibirDanio(1, false);
             piezaSeleccionada.vida += 1; //Pieza está en el mismo paquete, se puede tocar el campo directo
-            registrarLog("Jugador " + jugadorActual + " absorbió sangre de " + objetivo.getTipo());
+            registrarLog(nombreDeJugador(jugadorActual) + " absorbió sangre de " + objetivo.getTipo());
             aplicarResultadoAtaque(objetivo, filaDestino, columnaDestino);
             return;
         }
 
         //Ataque normal
         objetivo.recibirDanio(piezaSeleccionada.getAtaque(), false);
-        registrarLog("Jugador " + jugadorActual + " atacó " + objetivo.getTipo());
+        registrarLog(nombreDeJugador(jugadorActual) + " atacó " + objetivo.getTipo());
         aplicarResultadoAtaque(objetivo, filaDestino, columnaDestino);
     }
 
-    //Muestra el resultado del ataque, retira la pieza si murió y revisa si alguien ganó
+    //Muestra el resultado del ataque
     private void aplicarResultadoAtaque(Pieza objetivo, int filaDestino, int columnaDestino) {
 
         if (objetivo.estaViva()) {
@@ -555,7 +562,7 @@ public class Tablero extends JPanel implements ActionListener {
                     objetivo.getVida() + " de vida");
         } else {
             JOptionPane.showMessageDialog(this, "Se destruyó la pieza " + objetivo.getTipo());
-            registrarLog("Se destruyó " + objetivo.getTipo() + " del jugador " + objetivo.getDuenio());
+            registrarLog("Se destruyó " + objetivo.getTipo() + " de " + nombreDeJugador(objetivo.getDuenio()));
 
             int duenioDerrotado = objetivo.getDuenio();
             tablero[filaDestino][columnaDestino] = null;
@@ -578,7 +585,7 @@ public class Tablero extends JPanel implements ActionListener {
         finalizarAccion();
     }
 
-    //Suma la pieza perdida a los contadores del jugador que la perdió
+    //Suma la pieza perdida a los contadores
     private void registrarPiezaPerdida(int duenio, TipoPieza tipo) {
 
 
@@ -603,7 +610,7 @@ public class Tablero extends JPanel implements ActionListener {
 
 
 
-    //El Hombre Lobo salta la casilla del medio cuando se mueve 2 casillas; revisa que no haya pieza ahí
+    //El lobo salta la casillla intermedia cuando se mueve 2 bloques
     private boolean hayPiezaEnElCamino(int filaDestino, int columnaDestino) {
         if (piezaSeleccionada.getTipo() != TipoPieza.hombre_lobo) {
             return false;
@@ -622,7 +629,7 @@ public class Tablero extends JPanel implements ActionListener {
         return false;
     }
 
-    //Pinta de verde las casillas vacías a las que la pieza seleccionada se puede mover
+    //Pinta de verde las casillas que se puede mover
     private void marcarCasillasDeMovimiento() {
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
@@ -633,7 +640,7 @@ public class Tablero extends JPanel implements ActionListener {
         }
     }
 
-    //Pinta de verde todas las casillas vacías del tablero (usado al invocar un Zombie)
+    //Pinta de verde todas las casillas vacías del tablero
     private void marcarCasillasParaInvocar() {
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
@@ -644,7 +651,7 @@ public class Tablero extends JPanel implements ActionListener {
         }
     }
 
-    //Regresa las casillas al color ajedrezado normal
+    //Regresa las casillas al color normal
     private void quitarMarcasDeMovimiento() {
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
@@ -657,7 +664,7 @@ public class Tablero extends JPanel implements ActionListener {
         }
     }
 
-    //Limpia la selección actual y pasa el turno si la partida sigue
+    //Limpia la selección actual y pasa el turno
     private void finalizarAccion() {
         quitarMarcasDeMovimiento();
         piezaSeleccionada = null;
@@ -678,7 +685,7 @@ public class Tablero extends JPanel implements ActionListener {
         return nombreJugador2;
     }
 
-    //Revisa si el jugador "duenio" ya no tiene ninguna pieza en el tablero
+    //Revisa si el jugador ya no tiene ninguna pieza en el tablero
     private boolean jugadorSinPiezas(int duenio) {
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
@@ -690,7 +697,7 @@ public class Tablero extends JPanel implements ActionListener {
         return true;
     }
 
-    //Revisa si al jugador "duenio" ya no le queda ninguna pieza principal
+    //Revisa si al jugador ya no le queda ninguna pieza principal
 
     private boolean jugadorSoloTieneZombies(int duenio) {
         boolean tieneAlgunaPieza = false;
@@ -712,7 +719,7 @@ public class Tablero extends JPanel implements ActionListener {
         return tieneAlgunaPieza;
     }
 
-    //Termina la partida porque un jugador se quedó sin piezas
+    //Termina la partida porque un jugador esta sin piezas
     private void terminarPorVictoria(int ganador, int perdedor) {
         partidaTerminada = true;
         girar.setEnabled(false);
@@ -726,7 +733,7 @@ public class Tablero extends JPanel implements ActionListener {
         cerrarPartida(ganador, mensaje);
     }
 
-    //Termina la partida porque un jugador se retiró
+    //Termina la partida porque un jugador se retiro
     private void terminarPorRetiro(int retirado) {
         partidaTerminada = true;
         girar.setEnabled(false);
@@ -742,7 +749,7 @@ public class Tablero extends JPanel implements ActionListener {
         cerrarPartida(ganador, mensaje);
     }
 
-    //Le da los 3 puntos al ganador, guarda el registro en el historial y regresa al Menú Principal
+    //Le da los 3 puntos al ganador
     private void cerrarPartida(int numeroGanador, String mensaje) {
 
         Jugador ganador = Sesion.gestorJugadores.buscarPorUsuario(nombreDeJugador(numeroGanador));
@@ -761,7 +768,7 @@ public class Tablero extends JPanel implements ActionListener {
         frame.repaint();
     }
 
-    //Maneja los clics de todos los botones: retirarse, girar, habilidad especial y las 36 casillas
+    //Maneja las accioens
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -786,7 +793,7 @@ public class Tablero extends JPanel implements ActionListener {
             usarHabilidadEspecial = true;
             habilidadEspecial.setEnabled(false);
 
-            //El Necrómante puede invocar en cualquier casilla vacía del tablero
+            //El Necrómante puede invocar en cualquier casilla
             if (piezaSeleccionada.getTipo() == TipoPieza.necromante) {
                 quitarMarcasDeMovimiento();
                 marcarCasillasParaInvocar();
