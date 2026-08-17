@@ -25,7 +25,7 @@ public class MainMenu extends JPanel implements ActionListener {
     private JButton Crear_j = new JButton();
     private JButton salir = new JButton();
 
-    //La musica es static para que no se vuelva a poner encima cada vez que se abre el MainMenu de nuevo
+    
     private static Clip clip;
 
     public MainMenu() {
