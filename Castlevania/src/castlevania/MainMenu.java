@@ -25,7 +25,7 @@ public class MainMenu extends JPanel implements ActionListener {
     private JButton Crear_j = new JButton();
     private JButton salir = new JButton();
 
-    
+
     private static Clip clip;
 
     public MainMenu() {
@@ -37,7 +37,7 @@ public class MainMenu extends JPanel implements ActionListener {
                 clip = AudioSystem.getClip();
                 clip.open(AudioSystem.getAudioInputStream(Main.class.getResource("/resources/ost.wav")));
                 FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-                gainControl.setValue(-20.0f);
+                gainControl.setValue(-40.0f);
                 clip.loop(Clip.LOOP_CONTINUOUSLY);
             } catch (IOException | LineUnavailableException | UnsupportedAudioFileException e) {
             }
